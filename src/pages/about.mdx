@@ -1,0 +1,25 @@
+---
+title: 'About Pedram Navid'
+description: 'About Me'
+---
+import DefaultPageLayout from '$/layouts/default.astro'
+import Prose from '$/components/Prose.astro'
+
+<DefaultPageLayout content={{ title: frontmatter.title, description: frontmatter.description }}>
+    <Prose>
+    Hi. I'm Pedram Navid. I'm the Head of Engineering and DevRel at <a href="https://dagster.io">Dagster
+Labs</a>
+
+I write about software engineering, data engineering, vim, Python, and Rust.
+
+If you want to reach out, you can find me on:
+
+<ul>
+    <li><a href="https://twitter.com/pdrmnvd">Twitter</a></li>
+    <li><a href="https://www.linkedin.com/in/pedramnavid/">LinkedIn</a></li>
+    <li><a href="https://github.com/pedramnavid">GitHub</a></li>
+</ul>
+    </Prose>
+</DefaultPageLayout>
+
+

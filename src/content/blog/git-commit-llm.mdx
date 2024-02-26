@@ -1,0 +1,105 @@
+---
+title: Never Write Another Git Commit Message
+description: Using a CLI and LLMs to be lazier
+tags:
+  - llm
+  - git
+author: Pedram Navid
+authorTwitter: pdrmnvd
+date: "2024-02-25T10:23:31.210Z"
+category: software
+---
+
+Here's a simple way to never write another git commit message again. 
+
+You will need SimonW's [llm](https://llm.datasette.io/en/stable/) installed:
+
+```bash
+pip install llm
+```
+
+And you will need to use of the many support LLMs. If you're using OpenAI:
+
+```bash
+llm keys set openai
+```
+
+Then, create a template prompt:
+
+```bash
+llm templates edit gitcommit
+```
+
+Here's the one I use, although I update it frequently:
+
+```yaml
+model: gpt4
+system: >
+  You will receive a git diff. Write a commit message as if you are a senior software engineering.
+  Keep the commit messages brief, but informative. Use new lines to break apart long sentences.
+  Type can be fix, feat, BREAKING CHANGE. Other types of commits are allowed, e.g. build:, chore:, ci:, docs:, style:, refactor:, perf:, test:, and others.
+
+  There MUST be only one type and description line.
+  Use this template:
+    <type>[optional scope]: <description>
+
+    [optional body]
+
+  Examples:
+
+  Commit message with description and breaking change footer:
+    feat: allow provided config object to extend other configs
+
+    BREAKING CHANGE: `extends` key in config file is now used for extending other config files
+
+  Commit message with ! to draw attention to breaking change:
+    feat!: send an email to the customer when a product is shipped
+
+  Commit message with scope and ! to draw attention to breaking change:
+    feat(api)!: send an email to the customer when a product is shipped
+
+  Commit message with both ! and BREAKING CHANGE footer:
+    chore!: drop support for Node 6
+
+    BREAKING CHANGE: use JavaScript features not available in Node 6.
+
+  Commit message with no body:
+    docs: correct spelling of CHANGELOG
+
+  Commit message with scope:
+    feat(lang): add Polish language
+
+  Commit message with multi-paragraph body and multiple footers:
+    fix: prevent racing of requests
+
+    Introduce a request id and a reference to latest request. Dismiss
+    incoming responses other than from latest request.
+
+    Remove timeouts which were used to mitigate the racing issue but are
+    obsolete now.
+
+prompt: >
+
+
+  Diff: """$input"""
+```
+
+Now all you need is a shell command. You can insert this into your `.zshrc` or `.bashrc`:
+
+```bash
+gcllm() {
+  GIT_DIR="$(git rev-parse --git-dir)"
+  TEMPLATE="$GIT_DIR/COMMIT_EDITMSG_TEMPLATE"
+  echo '--- DELETE THIS LINE TO SAVE ---' > "$TEMPLATE"
+  git diff --cached -U1 --minimal -B --compact-summary --find-copies-harder -w  | head -n 1000 | llm -t gitcommit >> "$TEMPLATE"
+  git commit --verbose --template="$TEMPLATE"
+}
+```
+
+Here's a run down of how it works:
+
+- Find your `.git` directory to store the template file
+- Add a header to the template file, this must be deleted in order to save the commit, otherwise the commit aborts.
+- Get a diff of the staged files, and fetch only the first 1000 rows in order to prevent sending too many tokens to the LLM.
+- Pass the diff to the llm via the template and save to our template location following the header
+- Commit the changes using the template flag, which opens up your editor. If you do not save changes, it will abort the commit.
