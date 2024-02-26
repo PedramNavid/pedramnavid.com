@@ -4,7 +4,7 @@ module.exports = {
     /**
      * Color Palette - Purple Heart
      */
-     purpleheart: {
+    purpleheart: {
         colors: {
             primary: colors.purple[700],
             secondary: colors.purple[800],
@@ -126,18 +126,18 @@ module.exports = {
      */
     rosegarden: {
         colors: {
-            primary: colors.rose[700],
-            secondary: colors.rose[800],
+            primary: colors.rose[300],
+            secondary: colors.rose[400],
             dark: {
-                primary: colors.rose[300],
-                secondary: colors.rose[500]
+                primary: colors.rose[400],
+                secondary: colors.green[300]
             },
             accent: {
                 gray: {
                     light: colors.gray[300],
-                    dark: colors.gray[500]
+                    dark: colors.rose[500]
                 },
-                default: colors.blue[700]
+                default: colors.blue[300]
             }
         }
     },

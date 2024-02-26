@@ -13,10 +13,10 @@ module.exports = {
     ],
     safelist: ['dark'],
     theme: {
-		fontFamily: {
-			sans: ['Fira Code', ...fontFamily.sans],
-		},
-		extend: {
+        fontFamily: {
+            sans: ['Fira Code', ...fontFamily.sans],
+        },
+        extend: {
             colors: {
                 theme: {
                     ...colors
@@ -25,7 +25,7 @@ module.exports = {
             typography: (theme) => ({
                 dark: {
                     css: {
-                        color: theme("colors.gray.200"),
+                        color: theme("colors.gray.400"),
                         blockquote: {
                             color: colors.dark.primary,
                             borderColor: colors.primary
@@ -39,9 +39,9 @@ module.exports = {
                     css: {
                         a: {
                             color: colors.dark.primary,
-                              '&:hover': {
+                            '&:hover': {
                                 color: colors.primary,
-                              },
+                            },
                         },
                         blockquote: {
                             color: colors.primary,
@@ -63,8 +63,8 @@ module.exports = {
                     }
                 },
             }),
-		},
-	},
+        },
+    },
     variants: {
         extend: { typography: ["dark"] }
     },
