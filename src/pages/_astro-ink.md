@@ -1,4 +1,10 @@
-**Astro-Ink** is a crisp, minimal, personal blog theme for Astro, that shows the capability of statically built sites - offering all the goodness and DX of the modern JS ecosystem without actually shipping any JS by default. And, above all...     
-### It's Open-Source!
-**Maintained By:** Aftab Alam // [@aftabbuddy](https://twitter.com/aftabbuddy)  // [one-aalam](https://github.com/one-aalam)
-                
+Welcome to Pedram's Web Blog.               
+
+Here, I capture small TILs (Today I Learned) snippets. Inspired by [Simon Willison](https://til.simonwillison.net/). 
+
+I work at [Dagster](https://dagster.io) where I work on open-source tooling.
+
+I wrote a Neovim Plugin for dbt called [dbtpal](https://github.com/PedramNavid/dbtpal). 
+
+I have an unfinished book called [Rust for Data](https://github.com/PedramNavid/rust-for-data) that I
+may one day pickup again.
