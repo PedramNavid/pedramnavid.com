@@ -1,0 +1,129 @@
+---
+title: A Fast, Sample Postgres Database with Docker
+description: An easy way to get a sample database running quickly locally
+tags:
+  - postgres
+  - docker
+author: Pedram Navid
+authorTwitter: pdrmnvd
+date: "2024-03-01"
+category: software
+---
+
+I often find myself needing to spin up a database for testing some code or idea. Here's a simple
+approach to getting a local Postgres instance going with a few tables. 
+
+First, create an init_db.sql file:
+
+```sql
+
+\c postgres
+
+CREATE TABLE IF NOT EXISTS accounts (
+    account_id serial PRIMARY KEY,
+    user_id int,
+    balance decimal(15,2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS users (
+    user_id serial PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    email varchar(255) UNIQUE NOT NULL,
+    department_id int
+);
+
+CREATE TABLE IF NOT EXISTS departments (
+    department_id serial PRIMARY KEY,
+    name varchar(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS transactions (
+    id serial PRIMARY KEY,
+    account_id int,
+    amount decimal(15,2) NOT NULL,
+    last_updated_at timestamp without time zone NOT NULL
+);
+
+DO $$
+DECLARE
+    counter INT := 1;
+    max_rows INT := 100000;
+BEGIN
+    LOOP
+        EXIT WHEN counter > max_rows;
+        INSERT INTO accounts (user_id, balance) VALUES (counter, random() * 10000);
+        counter := counter + 1;
+    END LOOP;
+
+    counter := 1;
+
+    LOOP
+        EXIT WHEN counter >max_rows;
+        INSERT INTO users (name, email, department_id) VALUES ('User' || counter, 'user' || counter || '@example.com', counter % 3 + 1);
+        counter := counter + 1;
+    END LOOP;
+
+    counter := 1;
+
+    LOOP
+        EXIT WHEN counter >max_rows;
+        INSERT INTO departments (name) VALUES ('Department' || counter);
+        counter := counter + 1;
+    END LOOP;
+
+    counter := 1;
+
+    LOOP
+        EXIT WHEN counter >max_rows;
+        INSERT INTO transactions (account_id, amount, last_updated_at) VALUES (counter, random() * 200 - 100, CURRENT_DATE - FLOOR(random() * 365)::int);
+        counter := counter + 1;
+    END LOOP;
+
+    counter := 1;
+
+END $$;
+
+```
+
+This script will create a database called finance with a few tables and some sample data.
+
+Use Docker to spin up an instance. You'll need a small Dockerfile:
+
+```Dockerfile
+
+FROM postgres:15
+
+ENV POSTGRES_DB=postgres
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=postgres
+
+COPY init_db.sql /docker-entrypoint-initdb.d/
+```
+
+And I like to always use Makefile's so I don't have to remember commands. 
+Here's a simple Makefile:
+
+```makefile
+
+@PHONY: build run clean stop connect
+
+clean:
+	docker ps -q -f name=my-postgres-db | xargs -r docker stop && docker ps -aq -f name=my-postgres-db | xargs -r docker rm
+
+stop:
+	docker ps -q -f name=my-postgres-db | xargs -r docker stop
+
+build:
+	docker build -t my-postgres-db .
+
+run: build stop
+	docker run --name my-postgres-db  -p 54321:5432 -ti --rm my-postgres-db
+
+connect:
+    docker exec -it my-postgres-db psql -U postgres
+```
+
+Now run <code>make run</code> and you should have a Postgres instance running on port 54321. 
+<code>make clean</code> will stop and remove any running instances. 
+
+
