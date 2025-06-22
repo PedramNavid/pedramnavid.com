@@ -1,15 +1,49 @@
 ---
 const { page } = Astro.props
 ---
-<div class="page__actions">
-    {page.url.prev && <a class="action__go-to-x" href={page.url.prev} title="Go to Previous">&larr; Prev</a>}
-    {page.url.next && <a class="action__go-to-x" href={page.url.next} title="Go to Next">Next &rarr;</a>}
-</div>
+<nav class="pagination" aria-label="Pagination">
+    <div class="pagination__info">
+        <span class="pagination__text">Page {page.currentPage} of {page.lastPage}</span>
+    </div>
+    <div class="pagination__actions">
+        {page.url.prev ? (
+            <a class="pagination__link" href={page.url.prev} title="Go to Previous">
+                <span aria-hidden="true">&larr;</span>
+                <span>Previous</span>
+            </a>
+        ) : (
+            <span class="pagination__link pagination__link--disabled">
+                <span aria-hidden="true">&larr;</span>
+                <span>Previous</span>
+            </span>
+        )}
+        {page.url.next ? (
+            <a class="pagination__link" href={page.url.next} title="Go to Next">
+                <span>Next</span>
+                <span aria-hidden="true">&rarr;</span>
+            </a>
+        ) : (
+            <span class="pagination__link pagination__link--disabled">
+                <span>Next</span>
+                <span aria-hidden="true">&rarr;</span>
+            </span>
+        )}
+    </div>
+</nav>
 <style>
-    .page__actions {
-        @apply flex justify-center md:justify-end py-6 gap-2
+    .pagination {
+        @apply flex items-center justify-between py-8 mt-8 border-t border-gray-100 dark:border-gray-800
     }
-    .action__go-to-x {
-        @apply text-base uppercase text-gray-500 dark:text-gray-400 hover:underline
+    .pagination__info {
+        @apply text-sm text-gray-600 dark:text-gray-400
+    }
+    .pagination__actions {
+        @apply flex gap-3
+    }
+    .pagination__link {
+        @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700 transition-colors
+    }
+    .pagination__link--disabled {
+        @apply opacity-50 cursor-not-allowed hover:bg-white dark:hover:bg-gray-800
     }
 </style>

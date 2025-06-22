@@ -3,12 +3,19 @@
     import ModeLabel from './ModeLabel.svelte'
 ---
 <footer class="footer">
-    <nav class="nav">
-        <div>2024  &copy; Copyright notice |  <a href={ SITE.githubUrl } title={`${ SITE.name }'s Github URL'`}>{ SITE.name }</a>
-    </nav>
+    <div class="footer-content">
+        <p class="footer-text">© 2024 { SITE.name }. All rights reserved.</p>
+        <a href={ SITE.githubUrl } class="footer-link" title={`${ SITE.name }'s Github URL'`}>GitHub</a>
+    </div>
 </footer>
 <style>
     .footer {
-        @apply py-6 border-t
+        @apply py-8 mt-16 border-t border-gray-200 dark:border-gray-800
+    }
+    .footer-content {
+        @apply flex items-center justify-between text-sm text-gray-600 dark:text-gray-400
+    }
+    .footer-link {
+        @apply hover:text-gray-900 dark:hover:text-gray-100 transition-colors
     }
 </style>

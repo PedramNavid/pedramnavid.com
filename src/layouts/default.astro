@@ -22,12 +22,12 @@ const { content, showPageHeader = true } = Astro.props
 </html>
 <style>
     .page__header {
-        @apply py-4 mb-1
+        @apply py-12 mb-12 text-center
     }
     .page__title {
-        @apply text-5xl font-extrabold text-theme-primary dark:text-theme-dark-primary
+        @apply text-4xl md:text-5xl font-bold text-gray-900 dark:text-gray-100 mb-4
     }
     .page__desc {
-        @apply text-gray-400
+        @apply text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto
     }
 </style>

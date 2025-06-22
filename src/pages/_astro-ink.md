@@ -1,10 +1,3 @@
-Welcome to Pedram's Web Blog.               
+# Hi, I'm Pedram
 
-Here, I capture small TILs (Today I Learned) snippets. Inspired by [Simon Willison](https://til.simonwillison.net/). 
-
-I work at [Dagster](https://dagster.io) where I work on open-source tooling.
-
-I wrote a Neovim Plugin for dbt called [dbtpal](https://github.com/PedramNavid/dbtpal). 
-
-I have an unfinished book called [Rust for Data](https://github.com/PedramNavid/rust-for-data) that I
-may one day pickup again.
+Data engineer at [Dagster](https://dagster.io), creator of [dbtpal](https://github.com/PedramNavid/dbtpal), and author of [Rust for Data](https://github.com/PedramNavid/rust-for-data). I share quick insights and tutorials about data engineering, developer tools, and programming—inspired by [Simon Willison](https://til.simonwillison.net/).

@@ -2,21 +2,29 @@
 import { toTitleCase } from '$/utils'
 import { NAV_ITEMS } from '$/config'
 ---
-<nav class="nav py-3">
-    <ul class="nav-list dark:text-theme-dark-secondary" transition:animate="fade">
+<nav class="nav">
+    <ul class="nav-list" transition:animate="fade">
          {
             Object.keys(NAV_ITEMS).map(navItemKey => <li>
                 <a class:list={[
-                    `pb-1 border-b-2 hover:border-gray-400 hover:dark:border-gray-700 `,
-                    Astro.url.pathname !== NAV_ITEMS[navItemKey].path ? 'border-gray-100 dark:border-gray-800': '',
-                    Astro.url.pathname === NAV_ITEMS[navItemKey].path ? 'border-theme-primary' : ''
+                    `nav-link`,
+                    Astro.url.pathname === NAV_ITEMS[navItemKey].path ? 'nav-link--active' : ''
                 ]} href={NAV_ITEMS[navItemKey].path} title={NAV_ITEMS[navItemKey].title}>{toTitleCase(NAV_ITEMS[navItemKey].title)}</a>
             </li>)
         }
     </ul>
 </nav>
 <style>
+    .nav {
+        @apply py-6 border-b border-gray-200 dark:border-gray-800 mb-8
+    }
     .nav-list {
-        @apply inline-flex list-none gap-8 text-xl font-semibold text-theme-secondary dark:text-theme-dark-secondary py-2 flex-wrap mb-8
+        @apply flex list-none gap-8 text-sm font-medium
+    }
+    .nav-link {
+        @apply text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 transition-colors
+    }
+    .nav-link--active {
+        @apply text-gray-900 dark:text-gray-100
     }
 </style>

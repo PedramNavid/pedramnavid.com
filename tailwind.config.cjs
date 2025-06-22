@@ -14,7 +14,8 @@ module.exports = {
     safelist: ['dark'],
     theme: {
         fontFamily: {
-            sans: ['Fira Code', ...fontFamily.sans],
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', ...fontFamily.sans],
+            mono: ['Fira Code', ...fontFamily.mono],
         },
         extend: {
             colors: {
@@ -25,40 +26,69 @@ module.exports = {
             typography: (theme) => ({
                 dark: {
                     css: {
-                        color: theme("colors.gray.400"),
-                        blockquote: {
-                            color: colors.dark.primary,
-                            borderColor: colors.primary
+                        color: theme("colors.gray.300"),
+                        a: {
+                            color: theme("colors.blue.400"),
+                            '&:hover': {
+                                color: theme("colors.blue.300"),
+                            },
                         },
-                        'blockquote > p::before, p::after': {
-                            color: colors.primary,
+                        blockquote: {
+                            color: theme("colors.gray.300"),
+                            borderLeftColor: theme("colors.gray.600"),
+                        },
+                        'h1, h2, h3, h4': {
+                            color: theme("colors.gray.100"),
+                        },
+                        code: {
+                            color: theme("colors.gray.300"),
+                        },
+                        'pre code': {
+                            color: theme("colors.gray.300"),
+                        },
+                        strong: {
+                            color: theme("colors.gray.100"),
                         },
                     },
                 },
                 DEFAULT: {
                     css: {
+                        color: theme("colors.gray.700"),
+                        maxWidth: 'none',
                         a: {
-                            color: colors.dark.primary,
+                            color: theme("colors.blue.600"),
+                            textDecoration: 'none',
                             '&:hover': {
-                                color: colors.primary,
+                                color: theme("colors.blue.700"),
+                                textDecoration: 'underline',
                             },
                         },
                         blockquote: {
-                            color: colors.primary,
-                            fontSize: theme("fontSize.2xl"),
-                            borderColor: colors.dark.primary,
+                            color: theme("colors.gray.700"),
+                            borderLeftColor: theme("colors.gray.300"),
+                            fontStyle: 'normal',
                         },
-                        'blockquote > p::before, p::after': {
-                            color: colors.dark.primary,
+                        'h1, h2, h3, h4': {
+                            color: theme("colors.gray.900"),
+                            fontWeight: '600',
                         },
-                        h1: {
-                            color: colors.dark.secondary,
+                        code: {
+                            color: theme("colors.gray.800"),
+                            backgroundColor: theme("colors.gray.100"),
+                            paddingLeft: '4px',
+                            paddingRight: '4px',
+                            paddingTop: '2px',
+                            paddingBottom: '2px',
+                            borderRadius: '0.25rem',
+                            fontWeight: '400',
                         },
-                        h2: {
-                            color: colors.dark.secondary,
+                        'pre code': {
+                            backgroundColor: 'transparent',
+                            padding: 0,
                         },
-                        h3: {
-                            color: colors.dark.secondary,
+                        strong: {
+                            color: theme("colors.gray.900"),
+                            fontWeight: '600',
                         },
                     }
                 },

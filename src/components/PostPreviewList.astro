@@ -19,18 +19,18 @@ const sortedPosts = posts.sort((a, b) => new Date(b.date).valueOf() - new Date(a
 </section>
 <style>
     .post-preview__heading {
-        @apply pl-0 sm:pl-6
+        @apply text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-8
     }
     .post-preview__heading--row {
-        @apply pl-0
+        @apply mb-6
     }
     .post-preview__list {
-        @apply flex flex-col gap-12
+        @apply flex flex-col
     }
     .post-preview__list--row {
-        @apply flex-row flex-wrap md:px-6 lg:px-0 gap-12 md:gap-8 sm:gap-10 lg:gap-12
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6
     }
     .post-preview__list--col {
-        @apply flex-col gap-12
+        @apply flex-col
     }
 </style>

@@ -142,6 +142,26 @@ module.exports = {
         }
     },
     /**
+     * Color Palette - Zed Inspired
+     */
+    zedinspired: {
+        colors: {
+            primary: colors.blue[600],
+            secondary: colors.blue[700],
+            dark: {
+                primary: colors.blue[400],
+                secondary: colors.blue[500]
+            },
+            accent: {
+                gray: {
+                    light: colors.gray[100],
+                    dark: colors.gray[800]
+                },
+                default: colors.blue[600]
+            }
+        }
+    },
+    /**
      * Color Palette - Default/Duplicate of Purple Heart (Never remove this)
      */
     default: {

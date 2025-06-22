@@ -9,21 +9,19 @@ import { Content as AboutAstroInk } from './_astro-ink.md'
 
 
 const title = 'Home'
-const description = 'Astro-Ink is a crisp, minimal, personal blog theme for Astro'
+const description = 'Data engineering, developer tools, and programming insights'
 
 const posts = await getCollection('blog')
 ---
 <DefaultPageLayout content={{ title, description }} showPageHeader={false}>
-    <div class="hero ">
-        <div class="hero__face">
-        </div>
-        <div class="hero__says">
+    <div class="hero">
+        <div class="hero__content">
             <Prose>
                 <AboutAstroInk/>
             </Prose>
         </div>
     </div>
-    <hr/>
+    <div class="divider"></div>
     <PostPreviewList posts={posts.slice(0, 3)} heading="recent posts"/>
     <div class="page__actions">
         <a class="action__go-to-blog ink-h" href="/blog" title="All Posts">All Posts &rarr;</a>
@@ -32,24 +30,36 @@ const posts = await getCollection('blog')
 
 <style>
     .hero {
-        @apply flex flex-col md:flex-row gap-8 w-full transition-all pb-4
+        @apply py-8 mb-12
     }
-    .hero__face {
-        @apply flex md:flex-none justify-center
+    .hero__content {
+        @apply max-w-3xl mx-auto
     }
-    .hero__says {
-        @apply flex-1 text-center md:text-left
-    }
-    .author-card {
-        @apply  h-48 w-48 md:h-56 bg-theme-primary dark:bg-theme-dark-primary rounded-full md:rounded-md shadow-lg
-    }
-    .author-card img {
-        @apply rounded-full h-48 w-48 md:h-56
+    .divider {
+        @apply w-full h-px bg-gradient-to-r from-transparent via-gray-300 dark:via-gray-700 to-transparent mb-12
     }
     .page__actions {
-        @apply flex justify-center md:justify-end py-6
+        @apply flex justify-center py-8
     }
     .action__go-to-blog {
-        @apply py-4 hover:underline
+        @apply inline-flex items-center gap-2 px-6 py-3 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 rounded-lg transition-colors shadow-sm
+    }
+    .action__go-to-blog:hover {
+        @apply shadow-md transform -translate-y-0.5
+    }
+    
+    /* Style the prose content */
+    :global(.hero .prose h1) {
+        @apply text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 !important;
+        color: rgb(17 24 39) !important;
+    }
+    :global(.dark .hero .prose h1) {
+        color: rgb(255 255 255) !important;
+    }
+    :global(.hero .prose p) {
+        @apply text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-0
+    }
+    :global(.hero .prose a) {
+        @apply text-blue-600 dark:text-blue-400 hover:underline font-medium
     }
 </style>

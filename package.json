@@ -4,8 +4,8 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "THEME_KEY=rosegarden astro dev",
-        "build": "THEME_KEY=rosegarden astro build",
+        "dev": "astro dev",
+        "build": "astro build",
         "check": "astro check",
         "postbuild": "node ./scripts/search/prepare-index.js",
         "preview": "astro preview",

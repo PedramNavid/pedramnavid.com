@@ -52,18 +52,21 @@
 
 <style>
     .header {
-        @apply flex gap-4 border-b py-3 /* border-gray-200 dark:border-gray-700 - check styles/global.css */
+        @apply flex items-center gap-4 border-b border-gray-200 dark:border-gray-800 py-4
     }
     .header__logo-img {
-        @apply w-16 h-16 rounded-full overflow-hidden
+        @apply w-12 h-12 rounded-lg
     }
     .header__title {
-        @apply text-4xl font-extrabold md:text-5xl text-theme-secondary dark:text-theme-dark-secondary
+        @apply text-2xl font-semibold text-gray-900 dark:text-gray-100
     }
     .header__desc {
-        @apply text-xl flex-1 dark:text-gray-200
+        @apply text-base text-gray-600 dark:text-gray-400 flex-1
     }
     .header__ref-list {
-        @apply flex gap-3 text-gray-400
+        @apply flex items-center gap-4 text-gray-600 dark:text-gray-400
+    }
+    .header__ref-list a:hover {
+        @apply text-gray-900 dark:text-gray-100
     }
 </style>

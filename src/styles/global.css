@@ -1,51 +1,95 @@
 @tailwind base;
-/* https://github.com/tailwindlabs/tailwindcss/discussions/2917 */
 @layer base {
 	html {
+		@apply bg-gray-50 text-gray-900;
 		&.dark {
-			@apply text-gray-200;
+			@apply bg-gray-900 text-gray-100;
             header, footer {
-                @apply text-gray-400 border-gray-700;
+                @apply text-gray-300 border-gray-800;
             }
 			strong {
 				@apply text-inherit
 			}
 		}
 	}
+	body {
+		@apply min-h-screen;
+	}
 }
 @tailwind components;
 @tailwind utilities;
 
-/* Ink specific styles */
+/* Additional global styles */
+@layer components {
+	.gradient-bg {
+		@apply bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800;
+	}
+	
+	.card {
+		@apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6;
+	}
+	
+	.btn-primary {
+		@apply inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors;
+	}
+	
+	.btn-secondary {
+		@apply inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors;
+	}
+}
+
+/* Force image sizing in prose content */
+.prose img,
+article img,
+.prose-content img {
+	max-width: 800px !important;
+	max-height: 600px !important;
+	width: auto !important;
+	height: auto !important;
+	object-fit: contain !important;
+	display: block !important;
+	margin: 1.5rem auto !important;
+	border-radius: 0.5rem !important;
+	border: 1px solid rgb(229 231 235) !important;
+	box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+}
+
+.dark .prose img,
+.dark article img,
+.dark .prose-content img {
+	border-color: rgb(55 65 81) !important;
+}
+
+/* Modern header styles */
 .ink-h {
-    @apply inline-block text-sm font-bold uppercase drop-shadow-lg py-4 tracking-wider opacity-40 dark:opacity-70
+    @apply inline-block text-sm font-medium tracking-wide text-gray-600 dark:text-gray-400 py-2
 }
 
 ::-webkit-scrollbar {
-	@apply w-3;
+	@apply w-2;
 }
 
 ::-webkit-scrollbar-track {
-	@apply bg-theme-dark-primary dark:bg-theme-primary bg-opacity-20;
+	@apply bg-gray-100 dark:bg-gray-800;
 }
 
 ::-webkit-scrollbar-thumb {
-	@apply bg-theme-primary dark:bg-theme-dark-primary bg-opacity-20 dark:bg-opacity-100 shadow-2xl rounded-full;
+	@apply bg-gray-300 dark:bg-gray-600 rounded-full;
 }
 
 /** Code block **/
 .astro-code {
-	@apply relative shadow-inner shadow-theme-primary/20 dark:shadow-theme-dark-primary/20 mt-0;
+	@apply relative border border-gray-200 dark:border-gray-700 rounded-lg mt-0;
 }
 .remark-code-title {
-	@apply inline-block relative top-4 px-2 pt-1 pb-5 text-sm text-theme-primary dark:text-theme-dark-primary bg-gradient-to-br from-theme-primary/30 dark:from-theme-dark-primary/30 to-theme-dark-primary/30 dark:to-theme-primary/30 rounded-t-md shadow-sm;
+	@apply inline-block relative top-3 px-3 py-1 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-t-md border border-b-0 border-gray-200 dark:border-gray-700;
 }
 
 /** Shiki theme - Light/Dark mode **/
 
 :root {
 	--astro-code-color-text: #24292f;
-	--astro-code-color-background: #ffffff;
+	--astro-code-color-background: #f8f9fa;
 	--astro-code-token-constant: #0550ae;
 	--astro-code-token-string: #24292f;
 	--astro-code-token-comment: #6e7781;
@@ -59,7 +103,7 @@
 
 html.dark {
 	--astro-code-color-text: #c9d1d9;
-	--astro-code-color-background: #0d1117;
+	--astro-code-color-background: #161b22;
 	--astro-code-token-constant: #79c0ff;
 	--astro-code-token-string: #a5d6ff;
 	--astro-code-token-comment: #8b949e;
