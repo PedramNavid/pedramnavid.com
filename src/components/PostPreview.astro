@@ -1,13 +1,15 @@
 ---
 import type { CollectionEntry } from 'astro:content'
-import { getMonthName } from '$/utils'
+import { getMonthName, calculateReadingTime } from '$/utils'
+import TagBadge from './TagBadge.astro'
 
 interface Props {
     post: CollectionEntry<'blog'>,
     asCard?: boolean
 }
 
-const { post: { data: post, slug }, asCard = false } = Astro.props
+const { post: { data: post, slug, body }, asCard = false } = Astro.props
+const readingTime = calculateReadingTime(body)
 ---
 <article class={`post-preview group ${asCard && 'post-preview--card'}`}>
     {asCard ? (
@@ -25,6 +27,7 @@ const { post: { data: post, slug }, asCard = false } = Astro.props
                     <time class="post-preview__date">
                         { `${getMonthName(post.date)} ${new Date(post.date).getDate()}, ${new Date(post.date).getFullYear()}` }
                     </time>
+                    <span class="post-preview__reading-time">{readingTime} min read</span>
                 </div>
                 <h3 class="post-preview__title">
                     <a href={`/blog/${slug}`} title={post.title}>{post.title}</a>
@@ -32,6 +35,11 @@ const { post: { data: post, slug }, asCard = false } = Astro.props
                 <p class="post-preview__desc">
                     {post.description}
                 </p>
+                <div class="post-preview__tags">
+                    {post.tags.slice(0, 3).map(tag => (
+                        <TagBadge tag={tag} href={`/tags/${tag}`} size="sm" />
+                    ))}
+                </div>
             </div>
         </>
     ) : (
@@ -41,8 +49,16 @@ const { post: { data: post, slug }, asCard = false } = Astro.props
                 { `${getMonthName(post.date).slice(0, 3)} ${new Date(post.date).getDate()}, ${new Date(post.date).getFullYear()}` }
             </time>
             <div class="post-preview__content">
-                <h3 class="post-preview__title">{post.title}</h3>
+                <div class="post-preview__header-compact">
+                    <h3 class="post-preview__title">{post.title}</h3>
+                    <span class="post-preview__reading-time">{readingTime} min</span>
+                </div>
                 <p class="post-preview__desc">{post.description}</p>
+                <div class="post-preview__tags">
+                    {post.tags.slice(0, 2).map(tag => (
+                        <TagBadge tag={tag} size="sm" />
+                    ))}
+                </div>
             </div>
         </a>
     )}
@@ -55,7 +71,7 @@ const { post: { data: post, slug }, asCard = false } = Astro.props
         @apply text-blue-600 dark:text-blue-400;
     }
     .post-preview--card {
-        @apply bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-200;
+        @apply bg-white dark:bg-gray-800 rounded-xl overflow-hidden border border-gray-100 dark:border-gray-800 hover:shadow-xl hover:border-gray-200 dark:hover:border-gray-700 transition-all duration-300 hover:-translate-y-1;
     }
     .post-preview__image {
         @apply relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700 overflow-hidden;
@@ -68,7 +84,7 @@ const { post: { data: post, slug }, asCard = false } = Astro.props
         @apply p-6;
     }
     .post-preview__title {
-        @apply text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3 leading-tight;
+        @apply text-lg md:text-xl font-semibold text-gray-900 dark:text-gray-100 mb-3 leading-tight;
     }
     .post-preview__title a {
         @apply transition-colors duration-200;
@@ -83,7 +99,16 @@ const { post: { data: post, slug }, asCard = false } = Astro.props
         @apply text-sm text-gray-500 dark:text-gray-500 font-medium;
     }
     .post-preview__header {
-        @apply mb-2;
+        @apply mb-2 flex items-center justify-between;
+    }
+    .post-preview__header-compact {
+        @apply flex items-center justify-between mb-1;
+    }
+    .post-preview__reading-time {
+        @apply text-xs text-gray-500 dark:text-gray-500 font-medium;
+    }
+    .post-preview__tags {
+        @apply flex flex-wrap gap-2 mt-3;
     }
     .post-preview__read-more {
         @apply inline-flex items-center text-blue-600 dark:text-blue-400 font-medium text-sm mt-4 hover:underline;
@@ -96,7 +121,7 @@ const { post: { data: post, slug }, asCard = false } = Astro.props
         @apply p-0;
     }
     .post-preview:not(.post-preview--card) .post-preview__title {
-        @apply text-xl mb-2;
+        @apply text-lg md:text-xl mb-2;
     }
     .post-preview:not(.post-preview--card) .post-preview__desc {
         @apply text-base text-gray-600 dark:text-gray-400 line-clamp-1;

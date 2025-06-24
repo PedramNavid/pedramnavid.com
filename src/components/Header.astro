@@ -67,6 +67,9 @@
         @apply flex items-center gap-4 text-gray-600 dark:text-gray-400
     }
     .header__ref-list a:hover {
-        @apply text-gray-900 dark:text-gray-100
+        @apply text-gray-900 dark:text-gray-100 transform scale-110 transition-all duration-200
+    }
+    .header__ref-list a {
+        @apply transition-all duration-200 hover:rotate-6 hover:shadow-lg rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800
     }
 </style>

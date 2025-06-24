@@ -15,6 +15,16 @@
 	body {
 		@apply min-h-screen;
 	}
+	
+	/* Prevent horizontal overflow on all elements */
+	* {
+		@apply max-w-full;
+	}
+	
+	/* Exception for specific layout elements that need full width */
+	html, body, .fixed, .absolute {
+		max-width: none !important;
+	}
 }
 @tailwind components;
 @tailwind utilities;
@@ -30,7 +40,7 @@
 	}
 	
 	.btn-primary {
-		@apply inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors;
+		@apply inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5;
 	}
 	
 	.btn-secondary {
@@ -42,7 +52,7 @@
 .prose img,
 article img,
 .prose-content img {
-	max-width: 800px !important;
+	max-width: 100% !important;
 	max-height: 600px !important;
 	width: auto !important;
 	height: auto !important;
@@ -52,6 +62,14 @@ article img,
 	border-radius: 0.5rem !important;
 	border: 1px solid rgb(229 231 235) !important;
 	box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05) !important;
+}
+
+@media (min-width: 768px) {
+	.prose img,
+	article img,
+	.prose-content img {
+		max-width: 800px !important;
+	}
 }
 
 .dark .prose img,
@@ -79,7 +97,43 @@ article img,
 
 /** Code block **/
 .astro-code {
-	@apply relative border border-gray-200 dark:border-gray-700 rounded-lg mt-0;
+	@apply relative border border-gray-200 dark:border-gray-700 rounded-lg mt-0 overflow-x-auto;
+}
+
+/* Ensure code blocks don't overflow on mobile */
+.astro-code pre {
+	@apply overflow-x-auto;
+}
+
+.astro-code code {
+	@apply text-sm;
+}
+
+@media (max-width: 767px) {
+	.astro-code code {
+		@apply text-xs;
+	}
+}
+
+/* Mobile-friendly table styles */
+.prose table {
+	@apply w-full overflow-x-auto block;
+}
+
+@media (max-width: 767px) {
+	.prose table {
+		@apply text-sm;
+	}
+	
+	.prose table th,
+	.prose table td {
+		@apply px-2 py-1;
+	}
+}
+
+/* Ensure long words break properly */
+.prose {
+	@apply break-words;
 }
 .remark-code-title {
 	@apply inline-block relative top-3 px-3 py-1 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-t-md border border-b-0 border-gray-200 dark:border-gray-700;
