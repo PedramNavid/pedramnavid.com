@@ -4,11 +4,14 @@ import BaseHead from '$/components/BaseHead.astro';
 import MainLayout from '$/components/MainLayout.astro';
 
 const { content, showPageHeader = true } = Astro.props
+
+// Use static OG image
+const ogImage = new URL('/og-image.svg', Astro.url.origin).toString();
 ---
 <!doctype html>
 <html lang="en">
     <head>
-        <BaseHead title={ content.title ? `${ SITE.title } | ${content.title}` : SITE.title } description={ content.description } image={SITE.image}/>
+        <BaseHead title={ content.title ? `${ SITE.title } | ${content.title}` : SITE.title } description={ content.description } image={ogImage}/>
     </head>
     <MainLayout>
         {showPageHeader &&

@@ -26,11 +26,14 @@ const { content, meta } = Astro.props
 const AUTHOR_NAME = content.author ? content.author : SITE?.author ? SITE?.author : "Author"
 const AUTHOR_TWITTER = content.authorTwitter ? content.authorTwitter : SITE?.authorTwitter ? SITE?.authorTwitter : ""
 const AUTHOR_AVATAR = content.authorImage ? content.authorImage : SITE?.authorImage ? SITE?.authorImage : ""
+
+// Use static OG image for blog posts
+const ogImage = new URL('/og-image.svg', Astro.url.origin).toString();
 ---
 <!doctype html>
 <html lang="en">
     <head>
-        <BaseHead {...content} title={ content.title ? `${ SITE.title } | ${content.title}` : SITE.title }/>
+        <BaseHead {...content} title={ content.title ? `${ SITE.title } | ${content.title}` : SITE.title } image={ogImage}/>
     </head>
     <MainLayout>
         <ReadingProgress client:load />
