@@ -4,18 +4,57 @@
 ---
 <footer class="footer">
     <div class="footer-content">
-        <p class="footer-text">© 2024 { SITE.name }. All rights reserved.</p>
-        <a href={ SITE.githubUrl } class="footer-link" title={`${ SITE.name }'s Github URL'`}>GitHub</a>
+        <div class="footer-main">
+            <p class="copyright">
+                <span class="copyright-symbol">©</span> 
+                <span class="year">{ new Date().getFullYear() }</span> 
+                <span class="name">{ SITE.name }</span>
+            </p>
+            <div class="footer-links">
+                <a href={ SITE.githubUrl } class="footer-link" title={`${ SITE.name }'s Github URL'`}>
+                    <span class="link-bracket">[</span>GITHUB<span class="link-bracket">]</span>
+                </a>
+            </div>
+        </div>
     </div>
 </footer>
 <style>
     .footer {
-        @apply py-8 mt-16 border-t border-gray-200 dark:border-gray-800
+        @apply py-8 mt-16 border-t border-stone-200 dark:border-stone-800;
     }
     .footer-content {
-        @apply flex items-center justify-between text-sm text-gray-600 dark:text-gray-400
+        @apply space-y-3;
+    }
+    .footer-main {
+        @apply flex items-center justify-between;
+    }
+    .copyright {
+        @apply text-stone-700 dark:text-emerald-400;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.875rem;
+    }
+    .copyright-symbol {
+        @apply text-orange-600 dark:text-amber-500;
+    }
+    .year {
+        @apply text-orange-600 dark:text-emerald-500;
+    }
+    .name {
+        @apply text-stone-900 dark:text-emerald-300 font-bold;
+    }
+    .footer-links {
+        @apply flex gap-4;
     }
     .footer-link {
-        @apply hover:text-gray-900 dark:hover:text-gray-100 transition-colors
+        @apply text-stone-700 dark:text-emerald-400 transition-all duration-100;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        font-size: 0.875rem;
+    }
+    .footer-link:hover {
+        @apply text-orange-600 dark:text-amber-400;
+        transform: translateY(-2px);
+    }
+    .link-bracket {
+        @apply text-orange-600 dark:text-emerald-600;
     }
 </style>

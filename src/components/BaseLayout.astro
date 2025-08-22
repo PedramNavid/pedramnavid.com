@@ -1,10 +1,96 @@
-<body class="font-sans antialiased min-h-screen bg-white dark:bg-gray-900">
-    <div class="fixed inset-0 -z-10 h-full w-full bg-white dark:bg-gray-900">
-        <div class="absolute h-full w-full bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#374151_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_60%,transparent_100%)]"></div>
+<body class="font-terminal antialiased min-h-screen bg-amber-50 dark:bg-stone-950">
+    <div class="fixed inset-0 -z-10 h-full w-full">
+        <!-- Retro grid pattern -->
+        <div class="absolute h-full w-full opacity-30 dark:opacity-20">
+            <div class="absolute inset-0 bg-[linear-gradient(rgba(251,146,60,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(251,146,60,0.1)_1px,transparent_1px)] dark:bg-[linear-gradient(rgba(16,185,129,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(16,185,129,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
+        </div>
+        <!-- Pixel stars -->
+        <div class="stars"></div>
+        <div class="stars2"></div>
     </div>
     <div class="transition-colors relative">
-        <main class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="crt-effect"></div>
+        <main class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 relative z-10">
             <slot />
         </main>
     </div>
 </body>
+
+<style>
+    /* CRT screen effect overlay */
+    .crt-effect {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 100;
+    }
+    .crt-effect::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0) 50%,
+            rgba(0, 0, 0, 0.02) 50%,
+            rgba(0, 0, 0, 0.02)
+        );
+        background-size: 100% 4px;
+        animation: scanlines 8s linear infinite;
+    }
+    
+    @keyframes scanlines {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(10px); }
+    }
+    
+    /* Pixel stars animation */
+    .stars, .stars2 {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: transparent;
+        box-shadow: 
+            120px 180px #f97316,
+            240px 370px #f97316,
+            450px 110px #f97316,
+            680px 450px #f97316,
+            920px 290px #f97316,
+            1120px 490px #f97316,
+            340px 60px #f97316,
+            560px 320px #f97316,
+            780px 180px #f97316,
+            1000px 540px #f97316;
+        animation: animateStars 50s linear infinite;
+    }
+    
+    .dark .stars, .dark .stars2 {
+        box-shadow: 
+            120px 180px #10b981,
+            240px 370px #10b981,
+            450px 110px #10b981,
+            680px 450px #10b981,
+            920px 290px #10b981,
+            1120px 490px #10b981,
+            340px 60px #10b981,
+            560px 320px #10b981,
+            780px 180px #10b981,
+            1000px 540px #10b981;
+    }
+    
+    .stars2 {
+        animation: animateStars 100s linear infinite;
+        animation-delay: 5s;
+    }
+    
+    @keyframes animateStars {
+        from { transform: translateX(0px); }
+        to { transform: translateX(-2000px); }
+    }
+</style>

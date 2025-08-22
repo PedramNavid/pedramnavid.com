@@ -1,75 +1,114 @@
 ---
     import { SITE } from '$/config'
     import SvgIcon from './SvgIcon.astro'
+    import BirdLogo from './BirdLogo.astro'
     import ModeSwitcherBtn from './ModeSwitcherBtn.svelte'
     import SearchBtn from './SearchBtn.svelte'
 
 ---
 
 <header class="header">
-    <div class="header__logo">
-        <a href="/" class="avatar">
-            <img class="header__logo-img" src="/assets/logo.png" alt="Astro logo" />
-        </a>
-    </div>
-    <div class="header__meta flex-1">
-        <h3 class="header__title dark:text-theme-dark-secondary">
-            <a href="/">{ SITE.name }</a>
-        </h3>
-        <div class="header__meta-more flex">
-            <p class="header__desc">
-                { SITE.description }
-            </p>
-            <nav class="header__nav flex">
-                <ul class="header__ref-list">
-                    <li>
-                        <SearchBtn client:visible />
-                    </li>
-                    <li>
-                        <a href={ SITE.githubUrl } title={`${ SITE.name }'s Github URL'`}>
-                            <SvgIcon>
-                                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                            </SvgIcon>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="/rss.xml" title="RSS">
-                            <SvgIcon>
-                                <path d="M4 11a9 9 0 0 1 9 9"></path>
-                                <path d="M4 4a16 16 0 0 1 16 16"></path>
-                                <circle cx="5" cy="19" r="1"></circle>
-                            </SvgIcon>
-                        </a>
-                    </li>
-                    <li>
-                        <ModeSwitcherBtn client:visible />
-                    </li>
-                </ul>
-            </nav>
+    <div class="header__content">
+        <div class="header__logo">
+            <a href="/" class="avatar">
+                <div class="header__logo-wrapper">
+                    <BirdLogo />
+                </div>
+            </a>
+        </div>
+        <div class="header__meta flex-1">
+            <h3 class="header__title">
+                <a href="/">
+                    <span class="header__title-text">{ SITE.name }</span>
+                    <span class="header__cursor">_</span>
+                </a>
+            </h3>
+            <div class="header__meta-more flex">
+                <p class="header__desc">
+                    <span class="desc-prefix">&gt;&gt;</span> { SITE.description }
+                </p>
+                <nav class="header__nav flex">
+                    <ul class="header__ref-list">
+                        <li>
+                            <SearchBtn client:visible />
+                        </li>
+                        <li>
+                            <a href={ SITE.githubUrl } title={`${ SITE.name }'s Github URL'`} class="header__icon-link">
+                                <span class="icon-bracket">[</span>
+                                <SvgIcon>
+                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                                </SvgIcon>
+                                <span class="icon-bracket">]</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/rss.xml" title="RSS" class="header__icon-link">
+                                <span class="icon-bracket">[</span>
+                                <SvgIcon>
+                                    <path d="M4 11a9 9 0 0 1 9 9"></path>
+                                    <path d="M4 4a16 16 0 0 1 16 16"></path>
+                                    <circle cx="5" cy="19" r="1"></circle>
+                                </SvgIcon>
+                                <span class="icon-bracket">]</span>
+                            </a>
+                        </li>
+                        <li>
+                            <ModeSwitcherBtn client:visible />
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </header>
 
 <style>
     .header {
-        @apply flex items-center gap-4 border-b border-gray-200 dark:border-gray-800 py-4
+        @apply relative py-2 mb-4 border-b border-stone-200 dark:border-stone-800;
     }
-    .header__logo-img {
-        @apply w-12 h-12 rounded-lg
+    .header__content {
+        @apply flex items-center gap-4 py-3 px-2;
+    }
+    .header__logo-wrapper {
+        @apply relative;
     }
     .header__title {
-        @apply text-2xl font-semibold text-gray-900 dark:text-gray-100
+        @apply text-2xl font-bold text-stone-900 dark:text-emerald-400;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+    .header__title-text {
+        @apply inline-block;
+        text-shadow: 2px 2px 0 rgba(251, 146, 60, 0.3);
+    }
+    .dark .header__title-text {
+        text-shadow: 2px 2px 0 rgba(16, 185, 129, 0.3);
+    }
+    .header__cursor {
+        @apply inline-block text-orange-600 dark:text-emerald-400;
+        animation: blink 1s infinite;
     }
     .header__desc {
-        @apply text-base text-gray-600 dark:text-gray-400 flex-1
+        @apply text-base text-stone-700 dark:text-emerald-300 flex-1;
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        font-size: 0.875rem;
+    }
+    .desc-prefix {
+        @apply text-orange-600 dark:text-emerald-500 mr-2;
     }
     .header__ref-list {
-        @apply flex items-center gap-4 text-gray-600 dark:text-gray-400
+        @apply flex items-center gap-3 text-stone-700 dark:text-emerald-400;
     }
-    .header__ref-list a:hover {
-        @apply text-gray-900 dark:text-gray-100 transform scale-110 transition-all duration-200
+    .header__icon-link {
+        @apply flex items-center transition-all duration-100;
     }
-    .header__ref-list a {
-        @apply transition-all duration-200 hover:rotate-6 hover:shadow-lg rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800
+    .header__icon-link:hover {
+        @apply text-orange-600 dark:text-amber-400;
+        transform: translateY(-2px);
+    }
+    .icon-bracket {
+        @apply text-xs font-mono text-stone-600 dark:text-emerald-600;
+    }
+    .header__icon-link:hover .icon-bracket {
+        @apply text-orange-600 dark:text-amber-400;
     }
 </style>

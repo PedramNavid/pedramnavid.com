@@ -14,8 +14,11 @@ module.exports = {
     safelist: ['dark'],
     theme: {
         fontFamily: {
-            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', ...fontFamily.sans],
-            mono: ['Fira Code', ...fontFamily.mono],
+            sans: ['IBM Plex Mono', 'Inter', '-apple-system', 'BlinkMacSystemFont', ...fontFamily.sans],
+            mono: ['VT323', 'Fira Code', ...fontFamily.mono],
+            pixel: ['Press Start 2P', 'monospace'],
+            retro: ['VT323', 'monospace'],
+            terminal: ['IBM Plex Mono', 'monospace'],
         },
         extend: {
             colors: {

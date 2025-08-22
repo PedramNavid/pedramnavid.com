@@ -1,0 +1,250 @@
+---
+---
+<svg class="bird-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
+  <defs>
+    <!-- Define animation keyframes for wing flapping -->
+    <style>
+      @keyframes flap-wings {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-2px); }
+      }
+      
+      @keyframes move-head {
+        0%, 100% { transform: translateX(0) translateY(0); }
+        25% { transform: translateX(1px) translateY(0); }
+        50% { transform: translateX(0) translateY(-1px); }
+        75% { transform: translateX(-1px) translateY(0); }
+      }
+      
+      @keyframes bob-body {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(1px); }
+      }
+      
+      .bird-logo:hover .wing-left {
+        animation: flap-wings 0.2s ease-in-out infinite;
+        transform-origin: 10px 10px;
+      }
+      
+      .bird-logo:hover .wing-right {
+        animation: flap-wings 0.2s ease-in-out infinite;
+        animation-delay: 0.1s;
+        transform-origin: 14px 10px;
+      }
+      
+      .bird-logo:hover .bird-head {
+        animation: move-head 0.4s ease-in-out infinite;
+        transform-origin: 12px 5px;
+      }
+      
+      .bird-logo:hover .bird-body-group {
+        animation: bob-body 0.4s ease-in-out infinite;
+        transform-origin: 12px 12px;
+      }
+    </style>
+  </defs>
+  
+  <!-- Background for visibility -->
+  <rect x="0" y="0" width="24" height="24" class="bird-bg" rx="4"/>
+  <rect x="1" y="1" width="22" height="22" class="bird-bg-inner" rx="3"/>
+  
+  <!-- Pixel art egret with distinctive plumage -->
+  
+  <!-- Head group (animated) -->
+  <g class="bird-head">
+    <!-- Plume feathers -->
+    <rect x="11" y="2" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="2" width="1" height="1" class="bird-body"/>
+    <rect x="10" y="3" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="3" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="3" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="3" width="1" height="1" class="bird-body"/>
+    
+    <!-- Head -->
+    <rect x="9" y="4" width="1" height="1" class="bird-body"/>
+    <rect x="10" y="4" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="4" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="4" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="4" width="1" height="1" class="bird-body"/>
+    
+    <!-- Eye and beak -->
+    <rect x="9" y="5" width="1" height="1" class="bird-body"/>
+    <rect x="10" y="5" width="1" height="1" class="bird-eye"/>
+    <rect x="11" y="5" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="5" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="5" width="1" height="1" class="bird-body"/>
+    <rect x="14" y="5" width="1" height="1" class="bird-beak"/>
+    <rect x="15" y="5" width="1" height="1" class="bird-beak"/>
+  </g>
+  
+  <!-- Body group -->
+  <g class="bird-body-group">
+    <!-- Neck -->
+    <rect x="10" y="6" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="6" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="6" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="6" width="1" height="1" class="bird-body"/>
+    
+    <rect x="10" y="7" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="7" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="7" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="7" width="1" height="1" class="bird-body"/>
+    
+    <!-- Main body -->
+    <rect x="8" y="8" width="1" height="1" class="bird-body"/>
+    <rect x="9" y="8" width="1" height="1" class="bird-body"/>
+    <rect x="10" y="8" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="8" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="8" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="8" width="1" height="1" class="bird-body"/>
+    <rect x="14" y="8" width="1" height="1" class="bird-body"/>
+    <rect x="15" y="8" width="1" height="1" class="bird-body"/>
+    
+    <rect x="8" y="9" width="1" height="1" class="bird-body"/>
+    <rect x="9" y="9" width="1" height="1" class="bird-body"/>
+    <rect x="10" y="9" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="9" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="9" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="9" width="1" height="1" class="bird-body"/>
+    <rect x="14" y="9" width="1" height="1" class="bird-body"/>
+    <rect x="15" y="9" width="1" height="1" class="bird-body"/>
+    
+    <rect x="8" y="10" width="1" height="1" class="bird-body"/>
+    <rect x="9" y="10" width="1" height="1" class="bird-body"/>
+    <rect x="10" y="10" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="10" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="10" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="10" width="1" height="1" class="bird-body"/>
+    <rect x="14" y="10" width="1" height="1" class="bird-body"/>
+    <rect x="15" y="10" width="1" height="1" class="bird-body"/>
+    
+    <rect x="8" y="11" width="1" height="1" class="bird-body"/>
+    <rect x="9" y="11" width="1" height="1" class="bird-body"/>
+    <rect x="10" y="11" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="11" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="11" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="11" width="1" height="1" class="bird-body"/>
+    <rect x="14" y="11" width="1" height="1" class="bird-body"/>
+    <rect x="15" y="11" width="1" height="1" class="bird-body"/>
+    
+    <rect x="8" y="12" width="1" height="1" class="bird-body"/>
+    <rect x="9" y="12" width="1" height="1" class="bird-body"/>
+    <rect x="10" y="12" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="12" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="12" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="12" width="1" height="1" class="bird-body"/>
+    <rect x="14" y="12" width="1" height="1" class="bird-body"/>
+    <rect x="15" y="12" width="1" height="1" class="bird-body"/>
+    
+    <rect x="9" y="13" width="1" height="1" class="bird-body"/>
+    <rect x="10" y="13" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="13" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="13" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="13" width="1" height="1" class="bird-body"/>
+    <rect x="14" y="13" width="1" height="1" class="bird-body"/>
+    
+    <!-- Tail feathers -->
+    <rect x="10" y="14" width="1" height="1" class="bird-body"/>
+    <rect x="11" y="14" width="1" height="1" class="bird-body"/>
+    <rect x="12" y="14" width="1" height="1" class="bird-body"/>
+    <rect x="13" y="14" width="1" height="1" class="bird-body"/>
+    
+    <rect x="11" y="15" width="1" height="1" class="bird-accent"/>
+    <rect x="12" y="15" width="1" height="1" class="bird-accent"/>
+  </g>
+  
+  <!-- Left wing (animated) -->
+  <g class="wing-left">
+    <rect x="7" y="9" width="1" height="1" class="bird-body"/>
+    <rect x="6" y="10" width="1" height="1" class="bird-accent"/>
+    <rect x="7" y="10" width="1" height="1" class="bird-body"/>
+    <rect x="7" y="11" width="1" height="1" class="bird-body"/>
+  </g>
+  
+  <!-- Right wing (animated) -->
+  <g class="wing-right">
+    <rect x="16" y="9" width="1" height="1" class="bird-body"/>
+    <rect x="16" y="10" width="1" height="1" class="bird-body"/>
+    <rect x="17" y="10" width="1" height="1" class="bird-accent"/>
+    <rect x="16" y="11" width="1" height="1" class="bird-body"/>
+  </g>
+  
+  <!-- Legs (static) -->
+  <rect x="10" y="16" width="1" height="1" class="bird-legs"/>
+  <rect x="13" y="16" width="1" height="1" class="bird-legs"/>
+  
+  <rect x="10" y="17" width="1" height="1" class="bird-legs"/>
+  <rect x="13" y="17" width="1" height="1" class="bird-legs"/>
+  
+  <rect x="10" y="18" width="1" height="1" class="bird-legs"/>
+  <rect x="13" y="18" width="1" height="1" class="bird-legs"/>
+  
+  <rect x="10" y="19" width="1" height="1" class="bird-legs"/>
+  <rect x="13" y="19" width="1" height="1" class="bird-legs"/>
+  
+  <!-- Feet -->
+  <rect x="9" y="20" width="1" height="1" class="bird-legs"/>
+  <rect x="10" y="20" width="1" height="1" class="bird-legs"/>
+  <rect x="11" y="20" width="1" height="1" class="bird-legs"/>
+  
+  <rect x="12" y="20" width="1" height="1" class="bird-legs"/>
+  <rect x="13" y="20" width="1" height="1" class="bird-legs"/>
+  <rect x="14" y="20" width="1" height="1" class="bird-legs"/>
+</svg>
+
+<style>
+  .bird-logo {
+    @apply w-12 h-12 rounded cursor-pointer transition-transform duration-200;
+    image-rendering: pixelated;
+  }
+  
+  .bird-logo:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Light mode colors */
+  .bird-bg { 
+    fill: #e7e5e4; /* stone-200 */
+  }
+  .bird-bg-inner { 
+    fill: #f5f5f4; /* stone-100 */
+  }
+  .bird-body { 
+    fill: #404040; /* neutral-700 */
+  }
+  .bird-eye { 
+    fill: #000000; 
+  }
+  .bird-beak { 
+    fill: #171717; /* neutral-900 */
+  }
+  .bird-legs { 
+    fill: #ea580c; /* orange-600 */
+  }
+  .bird-accent { 
+    fill: #737373; /* neutral-500 */
+  }
+  
+  /* Dark mode colors */
+  :global(.dark) .bird-bg { 
+    fill: #1c1917; /* stone-900 */
+  }
+  :global(.dark) .bird-bg-inner { 
+    fill: #292524; /* stone-800 */
+  }
+  :global(.dark) .bird-body { 
+    fill: #ffffff; 
+  }
+  :global(.dark) .bird-eye { 
+    fill: #000000; 
+  }
+  :global(.dark) .bird-beak { 
+    fill: #525252; /* neutral-600 */
+  }
+  :global(.dark) .bird-legs { 
+    fill: #fb923c; /* orange-400 */
+  }
+  :global(.dark) .bird-accent { 
+    fill: #e5e5e5; /* neutral-200 */
+  }
+</style>

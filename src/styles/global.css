@@ -1,19 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
 @tailwind base;
 @layer base {
 	html {
-		@apply bg-gray-50 text-gray-900;
+		@apply bg-amber-50 text-stone-900;
+		background-image: 
+			repeating-linear-gradient(
+				0deg,
+				rgba(139, 69, 19, 0.03),
+				rgba(139, 69, 19, 0.03) 1px,
+				transparent 1px,
+				transparent 2px
+			);
 		&.dark {
-			@apply bg-gray-900 text-gray-100;
+			@apply bg-stone-950 text-emerald-200;
+			background-image: 
+				repeating-linear-gradient(
+					0deg,
+					rgba(16, 185, 129, 0.05),
+					rgba(16, 185, 129, 0.05) 1px,
+					transparent 1px,
+					transparent 2px
+				);
             header, footer {
-                @apply text-gray-300 border-gray-800;
+                @apply text-emerald-300 border-emerald-900/50;
             }
 			strong {
-				@apply text-inherit
+				@apply text-amber-400
 			}
 		}
 	}
 	body {
 		@apply min-h-screen;
+		font-family: 'Inter', system-ui, -apple-system, sans-serif;
 	}
 	
 	/* Prevent horizontal overflow on all elements */
@@ -25,6 +44,32 @@
 	html, body, .fixed, .absolute {
 		max-width: none !important;
 	}
+	
+	/* ASCII terminal cursor effect */
+	@keyframes blink {
+		0%, 49% { opacity: 1; }
+		50%, 100% { opacity: 0; }
+	}
+	
+	/* Retro CRT screen effect */
+	@keyframes flicker {
+		0% { opacity: 0.97; }
+		5% { opacity: 0.94; }
+		10% { opacity: 0.99; }
+		15% { opacity: 0.94; }
+		20% { opacity: 1; }
+		80% { opacity: 0.99; }
+		90% { opacity: 0.94; }
+		100% { opacity: 0.98; }
+	}
+	
+	/* Pixel art hover effect */
+	.pixel-hover {
+		transition: transform 0.1s steps(2);
+	}
+	.pixel-hover:hover {
+		transform: translateY(-2px);
+	}
 }
 @tailwind components;
 @tailwind utilities;
@@ -32,19 +77,65 @@
 /* Additional global styles */
 @layer components {
 	.gradient-bg {
-		@apply bg-gradient-to-br from-gray-50 via-white to-gray-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800;
+		@apply bg-gradient-to-br from-amber-50 via-orange-50 to-amber-50 dark:from-stone-950 dark:via-stone-900 dark:to-stone-950;
 	}
 	
 	.card {
-		@apply bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6;
+		@apply bg-amber-50/90 dark:bg-stone-900/90 border-2 border-stone-800 dark:border-emerald-800/50 p-6;
+		box-shadow: 4px 4px 0 rgba(120, 53, 15, 0.3);
+		position: relative;
+	}
+	.dark .card {
+		box-shadow: 4px 4px 0 rgba(16, 185, 129, 0.2);
+	}
+	.card::before {
+		content: '╔═════════╗';
+		@apply absolute -top-3 left-2 text-xs text-stone-600 dark:text-emerald-700 font-mono;
+	}
+	.card::after {
+		content: '╚═════════╝';
+		@apply absolute -bottom-3 left-2 text-xs text-stone-600 dark:text-emerald-700 font-mono;
 	}
 	
 	.btn-primary {
-		@apply inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5;
+		@apply inline-flex items-center px-4 py-2 text-sm font-bold text-amber-50 bg-gradient-to-b from-orange-600 to-red-700 border-2 border-stone-900 dark:from-emerald-600 dark:to-teal-700 dark:border-emerald-400;
+		font-family: 'Inter', system-ui, -apple-system, sans-serif;
+		box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.5);
+		text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+	}
+	.btn-primary:hover {
+		transform: translate(-1px, -1px);
+		box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5);
+	}
+	.btn-primary:active {
+		transform: translate(1px, 1px);
+		box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
 	}
 	
 	.btn-secondary {
-		@apply inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:text-gray-300 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 transition-colors;
+		@apply inline-flex items-center px-4 py-2 text-sm font-bold text-stone-800 bg-amber-200 border-2 border-stone-800 dark:text-emerald-300 dark:bg-stone-800 dark:border-emerald-600;
+		font-family: 'IBM Plex Mono', monospace;
+		box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+	}
+	.btn-secondary:hover {
+		transform: translate(-1px, -1px);
+		box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
+	}
+	
+	/* Text effects */
+	.bbs-text {
+		font-family: 'Inter', system-ui, -apple-system, sans-serif;
+		@apply text-xl tracking-wide;
+	}
+	
+	.pixel-text {
+		font-family: 'Inter', system-ui, -apple-system, sans-serif;
+		@apply text-sm;
+	}
+	
+	/* ASCII box drawing */
+	.ascii-box {
+		@apply font-mono text-stone-600 dark:text-emerald-600;
 	}
 }
 
