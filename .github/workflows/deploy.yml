@@ -16,16 +16,39 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
-      - name: Install Playwright
-        run:  bun install && bun install -D @playwright/test@latest
-      - name: Install Playwright Browsers
-        run:  npx playwright install --with-deps
+      
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      
+      - name: Cache dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.bun/install/cache
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+      
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+      
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      
+      - name: Install Playwright browsers if needed
+        run: bunx playwright install chromium --with-deps
+      
       - name: Install, build, and upload your site output
         uses: withastro/action@v4
         with:
             node-version: 20 
-            package-maanger: bun@latest
+            package-manager: bun@latest
   deploy:
     needs: build
     runs-on: ubuntu-latest

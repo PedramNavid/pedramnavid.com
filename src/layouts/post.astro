@@ -8,6 +8,7 @@ import PostStats from '$/components/PostStats.svelte'
 import EditUrl from '$/components/EditLink.astro'
 import ReadingProgress from '$/components/ReadingProgress.svelte'
 import TagBadge from '$/components/TagBadge.astro'
+import { getImagePath } from 'astro-opengraph-images'
 
 
 interface Props {
@@ -27,13 +28,14 @@ const AUTHOR_NAME = content.author ? content.author : SITE?.author ? SITE?.autho
 const AUTHOR_TWITTER = content.authorTwitter ? content.authorTwitter : SITE?.authorTwitter ? SITE?.authorTwitter : ""
 const AUTHOR_AVATAR = content.authorImage ? content.authorImage : SITE?.authorImage ? SITE?.authorImage : ""
 
-// Use static OG image for blog posts
-const ogImage = new URL('/og-image.svg', Astro.url.origin).toString();
+const { url, site } = Astro;
+// Generate dynamic OG image URL for blog posts
+const ogImage = getImagePath({ url, site });
 ---
 <!doctype html>
 <html lang="en">
     <head>
-        <BaseHead {...content} title={ content.title ? `${ SITE.title } | ${content.title}` : SITE.title } image={ogImage}/>
+        <BaseHead {...content} title={ content.title ? `${ SITE.title } | ${content.title}` : SITE.title } image={ogImage} />
     </head>
     <MainLayout>
         <ReadingProgress client:load />

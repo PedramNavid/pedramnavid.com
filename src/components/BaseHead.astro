@@ -7,11 +7,12 @@ import "../styles/global.css";
 export type Props = {
   title: string;
   description: string;
-  permalink: string;
-  image: string;
+  permalink?: string;
+  image?: string;
 };
 
 const { title = SITE.title, description, permalink, image } = Astro.props;
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!-- Use Google Fonts, if you don't wanna prefer a self-hosted version --><!-- <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,6 +26,7 @@ const { title = SITE.title, description, permalink, image } = Astro.props;
 {description && <meta name="description" content={description} />}
 <ViewTransitions />
 
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
 <link
@@ -45,7 +47,7 @@ const { title = SITE.title, description, permalink, image } = Astro.props;
 <!-- Open Graph Tags (Facebook) -->
 <meta property="og:type" content="website" />
 <meta property="og:title" content={title} />
-{permalink && <meta property="og:url" content={permalink} />}
+<meta property="og:url" content={permalink || canonicalURL.href} />
 {description && <meta property="og:description" content={description} />}
 {image && <meta property="og:image" content={image} />}
 

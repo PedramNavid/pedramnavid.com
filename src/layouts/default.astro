@@ -2,16 +2,18 @@
 import { SITE } from '$/config'
 import BaseHead from '$/components/BaseHead.astro';
 import MainLayout from '$/components/MainLayout.astro';
+import { getImagePath } from 'astro-opengraph-images';
 
 const { content, showPageHeader = true } = Astro.props
+const { url, site } = Astro;
 
-// Use static OG image
-const ogImage = new URL('/og-image.svg', Astro.url.origin).toString();
+// Generate OG image URL using the library
+const ogImage = getImagePath({ url, site });
 ---
 <!doctype html>
 <html lang="en">
     <head>
-        <BaseHead title={ content.title ? `${ SITE.title } | ${content.title}` : SITE.title } description={ content.description } image={ogImage}/>
+        <BaseHead title={ content.title ? `${ SITE.title } | ${content.title}` : SITE.title } description={ content.description } image={ogImage} />
     </head>
     <MainLayout>
         {showPageHeader &&

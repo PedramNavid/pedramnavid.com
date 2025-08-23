@@ -13,6 +13,9 @@ import remarkCodeTitles from 'remark-code-titles'
 import decapCmsOauth from "astro-decap-cms-oauth";
 import expressiveCode from 'astro-expressive-code';
 import remarkMermaid from 'remark-mermaidjs'
+import opengraphImages from 'astro-opengraph-images';
+import * as fs from 'fs';
+import customOGImageTemplate from './src/og-templates/index.tsx';
 
 // Full Astro Configuration API Documentation:
 // https://docs.astro.build/reference/configuration-reference
@@ -41,7 +44,26 @@ export default defineConfig( /** @type {import('astro').AstroUserConfig} */{
         svelte(), 
         tailwind({
         applyBaseStyles: false,
-    }), sitemap(), expressiveCode()],
+    }), sitemap(), 
+        opengraphImages({
+            options: {
+                fonts: [
+                    {
+                        name: "Inter",
+                        weight: 400,
+                        style: "normal",
+                        data: fs.readFileSync("node_modules/@fontsource/inter/files/inter-latin-400-normal.woff")
+                    },
+                    {
+                        name: "Inter",
+                        weight: 700,
+                        style: "normal",
+                        data: fs.readFileSync("node_modules/@fontsource/inter/files/inter-latin-700-normal.woff")
+                    }
+                ]
+            },
+            render: customOGImageTemplate
+        })],
     vite: {
         plugins: [],
         resolve: {
