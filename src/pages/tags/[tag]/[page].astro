@@ -1,4 +1,3 @@
----
 export const prerender = true
 import type { InferGetStaticParamsType, InferGetStaticPropsType } from 'astro'
 import { getCollection } from 'astro:content'
@@ -6,6 +5,7 @@ import { PAGE_SIZE } from '$/config'
 import DefaultPageLayout from '$/layouts/default.astro'
 import PostPreviewList from '$/components/PostPreviewList.astro'
 import Paginator from '$/components/Paginator.astro'
+import PostHogLayout from '$/layouts/PostHogLayout.astro'
 
 let title = 'Posts By Tags'
 let description = 'All the articles posted so far...'
@@ -14,7 +14,7 @@ export async function getStaticPaths({ paginate }) {
   const allPosts = await getCollection('blog')
   const allTags = new Set<string>()
   allPosts.map(post => {
-      post.data.tags && post.data.tags.map(tag => allTags.add(tag))
+    post.data.tags && post.data.tags.map(tag => allTags.add(tag))
   })
 
   return Array.from(allTags).flatMap((tag) => {
@@ -27,13 +27,15 @@ export async function getStaticPaths({ paginate }) {
 }
 
 type Params = InferGetStaticParamsType<typeof getStaticPaths>;
-type Props =  InferGetStaticPropsType<typeof getStaticPaths>;
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { page } = Astro.props as Props
 const { tag } = Astro.params as Params
 ---
 
-<DefaultPageLayout content={{ title: `Posts by Tag: ${tag}`, description: `all of the articles we have posted and linked so far under the tag: ${tag}` }}>
-  <PostPreviewList posts={page.data} />
+<PostHogLayout>
+  <DefaultPageLayout content={{ title: `Posts by Tag: ${tag}`, description: `all of the articles we have posted and linked so far under the tag: ${tag}` }}>
+    <PostPreviewList posts={page.data} />
     <Paginator page={page} />
-</DefaultPageLayout>
+  </DefaultPageLayout>
+</PostHogLayout>

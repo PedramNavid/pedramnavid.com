@@ -4,6 +4,7 @@ export const prerender = true
 import { getCollection } from 'astro:content'
 import DefaultPageLayout from '$/layouts/default.astro'
 import PostPreviewList from '$/components/PostPreviewList.astro'
+import PostHogLayout from '$/layouts/PostHogLayout.astro'
 
 export async function getStaticPaths({ }) {
   const allPosts = await getCollection('blog')
@@ -27,6 +28,8 @@ const { pages } = Astro.props
 const { tag } = Astro.params
 ---
 
-<DefaultPageLayout content={{ title: `Posts by Tag: ${tag}`, description: `all of the articles we have posted and linked so far under the tag: ${tag}` }}>
+<PostHogLayout>
+  <DefaultPageLayout content={{ title: `Posts by Tag: ${tag}`, description: `all of the articles we have posted and linked so far under the tag: ${tag}` }}>
     <PostPreviewList posts={pages} />
-</DefaultPageLayout>
+  </DefaultPageLayout>
+</PostHogLayout>
