@@ -16,6 +16,7 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
       - name: Install Playwright
         run:  bun install && bun install -D @playwright/test@latest
       - name: Install Playwright Browsers
