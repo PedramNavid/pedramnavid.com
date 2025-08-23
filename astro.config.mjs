@@ -11,6 +11,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 import remarkCodeTitles from 'remark-code-titles'
 import decapCmsOauth from "astro-decap-cms-oauth";
+import expressiveCode from 'astro-expressive-code';
+import remarkMermaid from 'remark-mermaidjs'
 
 // Full Astro Configuration API Documentation:
 // https://docs.astro.build/reference/configuration-reference
@@ -28,18 +30,18 @@ export default defineConfig( /** @type {import('astro').AstroUserConfig} */{
             theme: 'css-variables',
         },
         remarkPlugins: [
-            remarkCodeTitles
+            remarkCodeTitles,
+            remarkMermaid
         ]
     },
     integrations: [
-        mdx(),
-        markdoc(),
-        svelte(),
+        expressiveCode(), 
+        mdx(), 
+        markdoc(), 
+        svelte(), 
         tailwind({
-            applyBaseStyles: false,
-        }),
-        sitemap(),
-    ],
+        applyBaseStyles: false,
+    }), sitemap(), expressiveCode()],
     vite: {
         plugins: [],
         resolve: {

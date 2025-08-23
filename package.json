@@ -35,7 +35,7 @@
         "mdx": "^0.3.1",
         "remark-code-titles": "^0.1.2",
         "svelte": "^5.38.2",
-        "tailwindcss": "3",
+        "tailwindcss": "^3.4.17",
         "typescript": "^5.9.2"
     },
     "dependencies": {
@@ -43,11 +43,14 @@
         "@astrojs/vercel": "8.2.6",
         "@libsql/client": "^0.15.12",
         "astro-decap-cms-oauth": "^0.5.1",
+        "astro-expressive-code": "^0.41.3",
         "astro-icon": "^1.1.5",
         "autoprefixer": "^10.4.21",
-        "i": "^0.3.7",
         "ioredis": "^5.7.0",
-        "postcss": "^8.5.6"
+        "playwright": "^1.55.0",
+        "postcss": "^8.5.6",
+        "rehype-mermaid": "^3.0.0",
+        "remark-mermaidjs": "^7.0.0"
     },
     "config": {
         "commitizen": {

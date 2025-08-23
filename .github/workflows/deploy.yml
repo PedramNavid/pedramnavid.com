@@ -16,6 +16,10 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@v4
+      - name: Install Playwright
+        run:  bun install && bun install -D @playwright/test@latest
+      - name: Install Playwright Browsers
+        run:  npx playwright install --with-deps
       - name: Install, build, and upload your site output
         uses: withastro/action@v4
         with:
