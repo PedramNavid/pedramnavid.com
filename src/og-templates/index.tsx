@@ -23,10 +23,10 @@ const EgretLogo = () => (
 );
 
 export default function render(options: OGImageRenderOptions) {
-    const { title, description, url } = options;
+    const { title, description, pathname } = options as any;
     
-    // Check if this is a blog post
-    if (url && url.pathname && url.pathname.startsWith('/blog/') && url.pathname !== '/blog/') {
+    // Check if this is a blog post using pathname directly
+    if (pathname && pathname.startsWith('blog/') && pathname !== 'blog/') {
         return <BlogTemplate {...options} />;
     }
     

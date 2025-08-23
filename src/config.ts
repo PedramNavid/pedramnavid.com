@@ -21,14 +21,12 @@ export const NAV_ITEMS: NavItems = {
 
 export const SITE = {
     // Your site's detail?
-    name: "Pedram's Web Blog",
-    title: "Pedram Navid's Web Blog",
-    description: "Things I Learned",
+    name: "Pedram Navid",
+    title: "Pedram Navid",
+    description: "Pedram Navid",
     url: "https://pedramnavid.com",
     githubUrl: "https://github.com/pedramnavid",
     listDrafts: true,
-    image:
-        "https://raw.githubusercontent.com/one-aalam/astro-ink/main/public/astro-banner.png",
     ytChannelId: "",
     // Optional, user/author settings (example)
     // Author: name

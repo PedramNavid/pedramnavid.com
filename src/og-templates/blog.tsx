@@ -4,15 +4,15 @@ import type { OGImageRenderOptions } from 'astro-opengraph-images';
 // Simple egret SVG as JSX
 const EgretIcon = () => (
     <svg
-        width="120"
-        height="120"
+        width="140"
+        height="140"
         viewBox="0 0 100 100"
         style={{ 
             position: 'absolute',
-            right: '60px',
+            left: '80px',
             top: '50%',
             transform: 'translateY(-50%)',
-            opacity: 0.2
+            opacity: 0.3
         }}
     >
         <circle cx="50" cy="30" r="15" fill="white"/>
@@ -23,10 +23,17 @@ const EgretIcon = () => (
     </svg>
 );
 
-export default function BlogTemplate({ title, description, url }: OGImageRenderOptions) {
-    // Extract date from the URL if it's a blog post
-    const urlParts = url?.pathname ? url.pathname.split('/') : [];
+export default function BlogTemplate(options: OGImageRenderOptions) {
+    const { title, pathname } = options as any;
+    
+    // Extract date from the pathname if it's a blog post
+    const urlParts = pathname ? pathname.split('/') : [];
     const date = urlParts.length > 2 ? urlParts[2] : new Date().toISOString().split('T')[0];
+    
+    // Clean up the title - remove both possible prefixes
+    const cleanTitle = title
+        ?.replace("Pedram Navid's Web Blog | ", "")
+        ?.replace("Pedram Navid | ", "");
     
     return (
         <div
@@ -73,63 +80,25 @@ export default function BlogTemplate({ title, description, url }: OGImageRenderO
                     flexDirection: 'column',
                     justifyContent: 'space-between',
                     padding: '80px',
-                    paddingRight: '240px',
+                    paddingLeft: '260px',
                     width: '100%',
                     position: 'relative',
                     zIndex: 1,
                 }}
             >
-                {/* Top section with blog name */}
-                <div
-                    style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '16px',
-                        marginBottom: '40px',
-                    }}
-                >
-                    <div
-                        style={{
-                            background: 'rgba(255, 255, 255, 0.2)',
-                            padding: '8px 20px',
-                            borderRadius: '100px',
-                            fontSize: '18px',
-                            fontWeight: '600',
-                            color: 'white',
-                            backdropFilter: 'blur(10px)',
-                        }}
-                    >
-                        Pedram Navid's Web Blog
-                    </div>
-                </div>
-                
-                {/* Title and description */}
+                {/* Title only - no blog name or description */}
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
                     <h1
                         style={{
-                            fontSize: '56px',
+                            fontSize: '64px',
                             fontWeight: '700',
                             color: 'white',
                             lineHeight: 1.2,
-                            marginBottom: '24px',
                             textShadow: '0 2px 20px rgba(0,0,0,0.2)',
                         }}
                     >
-                        {title}
+                        {cleanTitle}
                     </h1>
-                    {description && (
-                        <p
-                            style={{
-                                fontSize: '24px',
-                                fontWeight: '400',
-                                color: 'rgba(255, 255, 255, 0.95)',
-                                lineHeight: 1.5,
-                                textShadow: '0 1px 10px rgba(0,0,0,0.2)',
-                            }}
-                        >
-                            {description}
-                        </p>
-                    )}
                 </div>
                 
                 {/* Bottom section with metadata */}
@@ -142,20 +111,7 @@ export default function BlogTemplate({ title, description, url }: OGImageRenderO
                         color: 'rgba(255, 255, 255, 0.9)',
                     }}
                 >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                        <span style={{ fontWeight: '600' }}>Pedram Navid</span>
-                        <span style={{ opacity: 0.6 }}>•</span>
-                        <span>{date}</span>
-                    </div>
-                    <span style={{ 
-                        fontWeight: '500',
-                        background: 'rgba(255, 255, 255, 0.1)',
-                        padding: '6px 16px',
-                        borderRadius: '100px',
-                        backdropFilter: 'blur(10px)',
-                    }}>
-                        pedramnavid.com
-                    </span>
+                    <span style={{ fontWeight: '600' }}>pedramnavid.com</span>
                 </div>
             </div>
         </div>

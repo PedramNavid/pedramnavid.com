@@ -13,7 +13,7 @@ import remarkCodeTitles from 'remark-code-titles'
 import decapCmsOauth from "astro-decap-cms-oauth";
 import expressiveCode from 'astro-expressive-code';
 import remarkMermaid from 'remark-mermaidjs'
-import opengraphImages from 'astro-opengraph-images';
+import opengraphImages, { presets } from 'astro-opengraph-images';
 import * as fs from 'fs';
 import customOGImageTemplate from './src/og-templates/index.tsx';
 
