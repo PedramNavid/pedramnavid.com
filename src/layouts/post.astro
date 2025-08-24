@@ -60,9 +60,9 @@ const ogImage = getImagePath({ url, site });
                     </span>
                     <span class="post__stats">
                         { USE_VIEW_STATS && ` | `}
-                        { USE_VIEW_STATS && 
+                        { USE_VIEW_STATS &&
                             <span class="inline-block text-gray-400 mr-1" title="Views">👁</span>
-                            <PostStats slug={meta?.slug} client:load /> 
+                            <PostStats slug={meta?.slug} client:load />
                         }
                         <!-- | <span class="inline-block text-gray-400 mr-1" title="Reading time">⏱</span> 2 mins -->
                     </span>
@@ -111,8 +111,8 @@ const ogImage = getImagePath({ url, site });
                 <br/>
             }
             {
-                meta?.collection && meta?.id && 
-                    <EditUrl label=" Suggest changes on GitHub" editUrl={`${SITE.githubUrl}/tree/main/src/content/${meta?.collection}/${meta?.id}`}/>
+                meta?.collection && meta?.id &&
+                    <EditUrl label=" Suggest changes on GitHub" editUrl={`${SITE.siteRepoUrl}/tree/main/src/content/${meta?.collection}/${meta?.id}`}/>
             }
         </div>
     </MainLayout>
