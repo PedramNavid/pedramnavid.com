@@ -3,7 +3,6 @@ export const prerender = true
 
 import { getCollection, getEntryBySlug } from 'astro:content'
 import DefaultPageLayout from '$/layouts/default.astro'
-import PostHogLayout from '$/layouts/PostHogLayout.astro'
 import PostPreviewList from '$/components/PostPreviewList.astro'
 import Prose from '$/components/Prose.astro'
 import { Content as AboutAstroInk } from './_astro-ink.md'
@@ -15,24 +14,22 @@ const description = 'Data engineering, developer tools, and programming insights
 const allPosts = await getCollection('blog')
 const posts = allPosts.sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
 ---
-<PostHogLayout>
-    <DefaultPageLayout content={{ title, description }} showPageHeader={false}>
-        <div class="hero">
-            <div class="hero__content">
-                <Prose>
-                    <AboutAstroInk/>
-                </Prose>
-            </div>
+<DefaultPageLayout content={{ title, description }} showPageHeader={false}>
+    <div class="hero">
+        <div class="hero__content">
+            <Prose>
+                <AboutAstroInk/>
+            </Prose>
         </div>
-        <PostPreviewList posts={posts.slice(0, 3)} heading="recent posts"/>
-        <div class="page__actions">
-            <a class="action__go-to-blog" href="/blog" title="All Posts">
-                <span class="btn-text">&gt; VIEW ALL CONTENT</span>
-                <span class="btn-arrow">▶</span>
-            </a>
-        </div>
-    </DefaultPageLayout>
-</PostHogLayout>
+    </div>
+    <PostPreviewList posts={posts.slice(0, 3)} heading="recent posts"/>
+    <div class="page__actions">
+        <a class="action__go-to-blog" href="/blog" title="All Posts">
+            <span class="btn-text">&gt; VIEW ALL CONTENT</span>
+            <span class="btn-arrow">▶</span>
+        </a>
+    </div>
+</DefaultPageLayout>
 
 <style>
     .hero {

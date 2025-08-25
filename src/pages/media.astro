@@ -2,7 +2,6 @@
 export const prerender = true
 
 import DefaultPageLayout from '$/layouts/default.astro'
-import PostHogLayout from '$/layouts/PostHogLayout.astro'
 import MediaPreviewList from '$/components/MediaPreviewList.astro'
 import { SITE } from '../config'
 import { DEFAULT_MEDIA_URL } from '../utils/media'
@@ -34,8 +33,6 @@ const allPosts = await response.json()
 
 const sortedPosts = (SITE.ytChannelId ? toMediaFormatFromFeed2JsonUrl(allPosts) : allPosts).sort((a, b) => new Date(b.date) - new Date(a.date))
 ---
-<PostHogLayout>
-    <DefaultPageLayout content={{ title, description }}>
-        <MediaPreviewList posts={sortedPosts} />
-    </DefaultPageLayout>
-</PostHogLayout>
+<DefaultPageLayout content={{ title, description }}>
+    <MediaPreviewList posts={sortedPosts} />
+</DefaultPageLayout>

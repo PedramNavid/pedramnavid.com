@@ -6,7 +6,6 @@ import DefaultPageLayout from '$/layouts/default.astro'
 import PostPreviewList from '$/components/PostPreviewList.astro'
 import Paginator from '$/components/Paginator.astro'
 import { PAGE_SIZE } from '$/config'
-import PostHogLayout from '$/layouts/PostHogLayout.astro'
 
 let title = 'Blog'
 let description = 'All the articles posted so far...'
@@ -15,17 +14,15 @@ export async function getStaticPaths({ paginate }) {
   const allPosts = await getCollection('blog');
   const sortedPosts = allPosts.sort((a, b) => new Date(b.data.date) - new Date(a.data.date));
 
-  return paginate(sortedPosts, {
-    pageSize: PAGE_SIZE
-  })
+    return paginate(sortedPosts, {
+      pageSize: PAGE_SIZE
+    })
 }
 
 const { page } = Astro.props
 
 ---
-<PostHogLayout>
-  <DefaultPageLayout content={{ title, description }}>
+<DefaultPageLayout content={{ title, description }}>
     <PostPreviewList posts={page.data} />
     <Paginator page={page} />
-  </DefaultPageLayout>
-</PostHogLayout>
+</DefaultPageLayout>
