@@ -26,7 +26,7 @@ export const SITE = {
     description: "Pedram Navid",
     url: "https://pedramnavid.com",
     githubUrl: "https://github.com/pedramnavid",
-    siteRepoUrl: "https://github.com/PedramNavid/pedramnavid.com"
+    siteRepoUrl: "https://github.com/PedramNavid/pedramnavid.com",
     listDrafts: true,
     ytChannelId: "",
     // Optional, user/author settings (example)
