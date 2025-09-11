@@ -29,6 +29,8 @@ const posts = allPosts.sort((a, b) => new Date(b.data.date) - new Date(a.data.da
             <span class="btn-arrow">▶</span>
         </a>
     </div>
+    <div class="divider"></div>
+    <PostPreviewList posts={posts} heading="all posts"/>
 </DefaultPageLayout>
 
 <style>

@@ -1,0 +1,351 @@
+---
+title: Evaluating and Optimizing LLM Applications with DSPy
+description: Stop writing prompts, start optimizing outcomes
+tags:
+  - dspy
+  - llm
+author: Pedram Navid
+authorTwitter: pdrmnvd
+date: "2025-09-11"
+category: software
+---
+import Callout from '$/components/mdoc/Callout.astro'
+
+# Evaluating and Optimizing LLM Applications with DSPy
+
+This is part 2 of an exploration of DSPy. In my [previous post](https://pedramnavid.com/blog/dspy-part-one/), I walked through getting started with DSPy to build modular and declarative LLM applications.
+
+In this post I wlll show how you can evaluate and automatically optimize LLM performance on the NYT Connections puzzle using DSPy, taking a simple prompt signature to a fully optimized one with improvements of up to 21% against the baseline.
+
+## Results
+
+Here are the results of the various models I evaluated, both before and after optimization, as long with the duration and total cost. 
+Models are sorted by most improved, and all testing was done via OpenRouter.
+
+| Run                          | Puzzles | Baseline (%) | Optimized (%) | Improvement (pp) | Duration | Total Cost (USD) |
+| ---------------------------- | ------: | -----------: | ------------: | ---------------: | -------- | ---------------: |
+| grok3-mini_evaluation        |     100 |           32 |            53 |               21 | 1.6h     |           $19.5 |
+| sonnet-4_evaluation          |     100 |           59 |            78 |               19 | 37.0min  |          $34.80 |
+| gpt5-nano_evaluation         |     100 |           48 |            66 |               18 | 2.3h     |           $6.50 |
+| gemini-flash-lite_evaluation |     100 |            6 |            22 |               16 | 59.2min  |           $5.93 |
+| gpt-oss-120b_evaluation      |     100 |           48 |            62 |               14 | 2.1h     |           $7.43 |
+| haiku-3.5_evaluation         |     100 |            8 |            18 |               10 | 21.9min  |           $6.44 |
+| gemini-flash_evaluation      |     100 |           57 |            65 |                8 | 34.1min  |          $11.85 |
+| qwen3_evaluation             |     100 |           49 |            55 |                6 | 5.3h     |           $8.99 |
+| gpt4.1-nano_evaluation       |     100 |            2 |             7 |                5 | 32.4min  |           $1.06 |
+| grok4_evaluation             |     100 |           85 |            90 |                5 | 4.6h     |         $165.74 |
+| gpt5-mini_evaluation         |     100 |           93 |            98 |                5 | 1.4h     |           $9.65 |
+| deepseek-r1_evaluation       |     100 |           78 |             9 |              -69 | 5.4h     |          $24.65 |
+
+Note: Improvement is absolute percentage points; Optimized (%) = Baseline (%) + Improvement.
+
+## The Game
+
+I had wanted to learn about evals ever since I saw conversations on Twitter/X blow up about them. I didn't understand the hype nor the hate, and was left confused the more I read about it. I decided to run some evals on my own in order to better understand what we meant. 
+
+To do that though, I needed an interesting project to work on. I have a "Marketing OS" I am building but it wasn't clear to me how to build repeatable tests on what is essentially long-form content. However,my good friend [@matsonj](https://twitter.com/matsonj) had created a [Connections Eval](https://x.com/matsonj/status/1957949467577270555) project that compared various models' ability to solve the NYT Connections game. This was the perfect project to build on. It was complex enough that models weren't all equally skilled at solving it, it was tractable enough that a known answer was easy to find. And luckily, there's a Kaggle dataset with 800+ puzzles ready for use.
+
+If you're unfamiliar with the game, it's a word puzzle where you are given 16 words and have to group them into four groups of 4 based on their connections. For example, the words "Mercury", "Venus", "Earth", and "Mars" can be grouped as they are all planets in our solar system. The groups increase in difficulty, and you are not given any information about the underlying groups up front.
+
+While his project had a single custom prompt across all models, I wanted to see if we could leverage DSPy to create a similar program, but one that could be optimized for each model individually, without having to write any prompts by hand.
+
+My goals were twofold:
+
+1. Get a better understanding of how DSPy's evaluation and optimization framework works
+2. See if we could improve the performance of cheaper models to get them close to the unoptimized performance of larger frontier models
+
+## Evalulations in DSPy
+
+I struggled to understand the discourse around evals for a long time. Here's my basic attempt at explaining what an eval is and why we do them.
+
+I have some task that I would like to automate using an LLM. The goal is to have the LLM perform some type of prediction. The natural question is where the result of this prediction is any good. We might also ask questions like "how do different models perform on this task?" and "what are the cost/benefit tradeoffs?" or even "can we change parameters to improve performance?"
+
+If this is starting to sound like old fashioned data science, I have bad news for you: it is.
+
+The more I started running evals, the more I realized I was doing what I had always done. I created a training set, a validation set, and a test set. I ran a baseline model against a training set to get an initial score, I then optimized the model using bootstrap sampling to find the best parameters (in our case, a prompt and few-shot examples), and picked the best model to run against the holdout test set. I scored the model on a metric, looked at the metric in a table, and compared performance across different candidates.
+
+I was doing data science. All that was missing was a dashboard, and I ended up creating that too.
+
+If this hasn't scared you away yet, then the rest of this post will break down what this looks like in the context of DSPy. 
+
+### Main Concepts
+
+In DSPy, the main concepts for building evals are:
+
+- A `Module`, a reusable DSPy component that can produce predictions.
+- An `Example`, a simple data object containing an input and an expected output. You can also attach additional labels and metadata to an example.
+- A `Dataset`, a collection of examples, simply a list of `Example` objects.
+- A `Metric`, a function that produces a score given an example and a prediction.
+- An `Evaluator`, a class that takes a dataset, a module, and a metric, and evaluates its results.
+
+The full code for this project is on [GitHub](https://github.com/pedramnavid/dspy-connections), which provides the full implementation. In this post, I'll focus on the LLM code rather than the state and puzzle logic.
+
+### Defining and Calling the Module
+
+The first step is to define the `Module` that will be used to make predictions. We will create a `ConnectionsSolver` class that inherits from `dspy.Module`. The `forward` method will take a `Puzzle` object as input and return a `dspy.Prediction` object.
+
+I purposely kept the signature extremely simple. The goal was to see how far DSPy can optimize given minimal information. The parameters are pretty simple:
+
+- `rules`: The essential game rules provided to all models can be found in the repo.
+- `available_words`: The list of still available words to be guessed.
+- `history_feedback`: The history of guesses and feedback received so far.
+- `guess_index`: The index of the current guess (0-9).
+
+The model returns a guess prediction, and the application logic is processed in the `forward` method.
+
+```python
+class ConnectionsSolver(dspy.Module):
+    def __init__(self):
+        self.predict = dspy.ChainOfThought(
+            "rules, available_words, history_feedback, guess_index -> guess"
+        )
+        self.logic = ConnectionsGameLogic()
+
+    def forward(self, puzzle: Puzzle) -> dspy.Prediction:
+        # 1. Create the current game state (words, history, etc.)
+        game_state = create_game_state(puzzle)
+        available_words_str = ", ".join(game_state.available_words)
+        history_str = format_history(game_state.history)
+
+        # 2. Call the DSPy module to get the next guess
+        prediction = self.predict(
+            rules=GAME_RULES,
+            available_words=available_words_str,
+            history_feedback=history_str,
+            guess_index=game_state.guess_count,
+        )
+
+        # 3. In the full code, we process the guess and update the state.
+        # The final result is a prediction object with success status and other metrics.
+
+        # This is a simplified representation of the final output
+        return dspy.Prediction(
+            puzzle_id=puzzle.id,
+            success=game_state.won,
+            # ... other metrics
+        )
+```
+
+This class can then be called anytime, like so:
+
+```python
+lm = dspy.LM("openrouter/google/gemini-2.5-flash", max_tokens=10000)
+dspy.configure(lm=lm)
+puzzle = GetSomePuzzle() # loaded from yaml in the actual code
+solver = ConnectionsSolver()
+prediction = solver(puzzle) # returns a dspy.Prediction object
+
+> Prediction(
+    puzzle_id=858,
+    puzzle_date='2025-09-08',
+    success=False,
+    attempts=5,
+    mistakes=4,
+    invalid_responses=0,
+    groups_solved=1,
+    duration=20.483487844467163,
+    finished=True
+)
+```
+
+Recapping what we've just accomplished:
+- We used a DSPy module to define the signature for our model `(rules, available_words, history_feedback, guess_index -> guess)`.
+- We called our module with a puzzle instance and got a specific prediction. We can call the module multiple times until we get either a correct answer `(success=True)` or we've exceeded all our attempts.
+
+
+### Measuring the Results
+
+Now that we've successfully run a prediction, our next step is to determine a metric to evaluate the model's performance. In our case, the metric is straightforward: Did the model solve the puzzle? 
+
+We could consider other metrics, such as an efficiency (how many attempts it took to solve the puzzle) or factor in things like difficulty, but simplicity is best. We'll validate that the response has given us a well-formed success attribute, and return it if so.
+
+```python
+def success_metric(example, pred, trace=None):
+    if not hasattr(pred, "success"):
+        return False
+    return pred.success
+```
+
+### Evaluating the Baseline Performance of the Model
+
+Now that we have an example and a metric, we can use them to evaluate the performance of our model. First, we must create a `Dataset` of `Example` objects. I've loaded a dataset of 856 puzzles from [Kaggle](https://www.kaggle.com/datasets/eric27n/the-new-york-times-connections/). A utility function loads the CSV file and creates a list of `Example` objects.
+
+An `Example` is a simple object containing an input and, usually, an expected output. In our case, the input is a `Puzzle` object, and the success metric is a state in the puzzle itself, so we don't need to provide an expected output. However, an example will often include a label.
+
+It's important to use the `with_inputs` method on the Example. This is not always documented in the DSPy docs, but without it your evaluation will not work.
+
+```python
+def create_dataset(puzzles: List[Puzzle]) -> List[dspy.Example]:
+    examples = []
+    for puzzle in puzzles:
+        example = dspy.Example(puzzle=puzzle, puzzle_id=puzzle.id).with_inputs("puzzle")
+        examples.append(example)
+    return examples
+```
+
+A side note, if we didn't have a state object, we might do something like `dspy.Example(puzzle=puzzle, answer=answer).with_inputs("guess").` That is the typical Example pattern you'll see in the wild.
+
+With the dataset created, we can now create an `Evaluator` that will take the dataset, the module, and the metric and evaluate the model's performance.
+
+```python
+evaluate = dspy.Evaluate(
+    devset=dataset,
+    metric=success_metric,
+    display_progress=True,
+    num_threads=NUM_THREADS,
+)
+
+result = evaluate(solver)
+```
+
+If we also set `display_table=True`, (useful in a Jupyter notebook), we can see the results in a nice table format. Here's a sample of an evaluation run with the `google/gemini-2.5-flash` model for five puzzles. We can see that 2/5 puzzles were solved successfully (40% success rate).
+
+**Average Metric: 2.00 / 5 (40.0%)**
+
+| Puzzle ID | Date | Success | Attempts | Mistakes | Invalid Responses | Groups Solved | Duration (s) | Finished | Success Metric |
+|-----------|------|---------|----------|----------|-------------------|---------------|--------------|---------- |----------------|
+| 858 | 2025-09-08 | ❌ | 5 | 4 | 0 | 1 | 0.019 | ✅ | - |
+| 856 | 2025-09-09 | ❌ | 5 | 4 | 0 | 1 | 13.897 | ✅ | - |
+| 860 | 2025-09-10 | ❌ | 4 | 4 | 0 | 0 | 22.420 | ✅ | - |
+| 1 | 2023-06-12 | ✅ | 4 | 0 | 0 | 4 | 0.004 | ✅ | ✅ |
+| 2 | 2023-06-13 | ✅ | 7 | 3 | 0 | 4 | 0.008 | ✅ | ✅ |
+
+
+```
+### Summary Statistics
+- **Success Rate**: 2/5 puzzles (40%)
+- **Average Attempts**: 5.0
+- **Average Mistakes**: 3.0
+- **Average Duration**: 7.27 seconds
+```
+
+If those durations seem low, DSPy caches results, which is a nice feature to help avoid costly reruns. Do note that if you start changing some of the state logic though, the cache will not re-run and you might have to manually wipe the disk cache, usually in `~/.dspy_cache`
+
+### It's starting to feel a lot like Data Science
+
+We've successfully evaluated a single model on a set of data. Now's a good time to step back and look at the overall approach I took for evaluations with this dataset.
+
+Of the 856 puzzles in the dataset, for each run, I shuffle them, then split into a training set of 100 puzzles and a holdout test set of 100. The remaining puzzles go unused for that run. The 100 training puzzles are further broken down into a set of 60 for training the optimizer and 40 for validating the optimizer. Validation sets are optional, but given the volume of data I have, it was easy to include them. I elected not to run all 856 puzzles through this process because of cost. 
+
+
+<Callout type="note">
+For reference: this single blog cost me nearly $300. [Tips accepted](https://github.com/sponsors/PedramNavid)
+</Callout>
+
+### Optimizing and Evaluating the Test Performance
+
+The overall evaluation process is as follows:
+
+1. Evaluate each unoptimized model on the training set of 100 puzzles and record the results. The score is the percentage of puzzles solved.
+2. To optimize the module, run the MIPROv2 optimizer on the training set of 60 puzzles and a validation set of 40 for each model. I ran the optimizer using 'light' settings for speed.
+3. Evaluate the optimized model on the holdout test set of 100 puzzles and record the results.
+4. Compare the results of the unoptimized and optimized models on the holdout test set to generate the improvement metric.
+
+We've already convered running evaluations, now we can run an optimizer. Thankfully in DSPy this is fairly straightforward:
+
+```python
+optimizer = dspy.MIPROv2(
+    metric=success_metric,
+    auto="light",
+    num_threads=NUM_THREADS,
+    teacher_settings=dict(
+        lm=dspy.LM(f"openrouter/{TEACHER_MODEL}", **teacher_params)
+    ),
+    prompt_model=dspy.LM(f"openrouter/{PROMPT_MODEL}", **prompt_params),
+)
+
+optimized_solver = optimizer.compile(
+    solver,
+    trainset=train_subset,
+    valset=val_subset,
+    **OPTIMIZER_COMPILE_SETTINGS,  # type:ignore
+)
+```
+
+DSPy has many optimizers, but a great sensible one to start with is MIPROv2. From the docs, this "works by creating both few-shot examples and new instructions for each predictor in your LM program, and then searching over these using Bayesian Optimization to find the best combination of these variables for your program". The [docs](https://dspy.ai/api/optimizers/MIPROv2/#example-usage) provide further details on parameters you can tune.
+
+I use the `light` auto settings to quickly pick sensible defaults for the optimization process. Luckily, we can also use threads to speed up the process. You can also define a teacher and a prompt model, they are used by MIPRO to generate new instructions and few-shot examples. I kept these consistent across all models to keep the comparison fair. 
+
+Compilation finds the best parameters and prompts through optimization and then saves the results into a compiled model that you can use just like your original module.
+
+Finally, you can evaluate the optimized module on the holdout test set to see true performance.
+
+```python
+evaluate = dspy.Evaluate(
+    devset=test_dataset,
+    metric=success_metric,
+    display_progress=True,
+    num_threads=NUM_THREADS,
+)
+result = evaluate(optimized_solver)
+```
+
+These final results are what I used for the comparison of the models.
+
+### Observability and Tracing
+
+DSPy has decent integration with MLFlow for experiment tracking. You'll see some helper functions I used to track metrics in the repo. MLFlow also ships with an autolog feature that automatically logs traces and runs, although I did find that can overwhelm the MLFlow server with too many traces, especially if running against a cached prompt through DSPy, or using 32 threads like I did.
+
+The overall experience with MLFlow was a bit buggy. Since running too many threads overloaded the SQLite server that MLFlow uses, I moved to Postgres, but that didn't solve all the issues either. There were various errors about failing to write traces or save models that I didn't feel like debugging for this project.
+
+That said, it was still very helpful to see both the metrics across models and the individual traces of each run to understand how DSPy uses prompts.
+
+Here's an example of a prompt from grok-3-mini, which saw a 21% improvement from a 32% success rate up to 53% after optimization. Remember, the optimizer, not me, created this prompt. And every model will have a different prompt.
+
+```
+our input fields are:
+rules (str):
+available_words (str):
+history_feedback (str):
+guess_index (str): Your output fields are:
+reasoning (str):
+guess (str): All interactions will be structured in the following way, with the appropriate values filled in.
+[[ ## rules ## ]] {rules}
+[[ ## available_words ## ]] {available_words}
+[[ ## history_feedback ## ]] {history_feedback}
+[[ ## guess_index ## ]] {guess_index}
+[[ ## reasoning ## ]] {reasoning}
+[[ ## guess ## ]] {guess}
+[[ ## completed ## ]] In adhering to this structure, your objective is: You are a master puzzle solver playing the New York Times Connections game. Your task is to identify groups of 4 related words from the available words. Using your extensive knowledge of language, wordplay, and cultural references:
+
+1. First, examine the current game state:
+    - Review available words that haven't been grouped yet
+    - Consider previous guesses and their feedback
+    - Note how many guesses you've made and how many remain
+
+2. Then, analyze the words by:
+    - Looking for obvious thematic connections (e.g., sports terms, food items)
+    - Considering multiple meanings of each word
+    - Identifying potential word patterns or categories
+    - Thinking about cultural references or common phrases
+
+3. Form your guess by:
+    - Selecting EXACTLY 4 words that share a clear connection
+    - Writing them in ALL CAPS, separated by commas
+    - Double-checking that all words are from the available list
+    - Ensuring you're not reusing any correctly guessed words
+
+Remember that words can be connected in various ways:
+- Literal meanings or synonyms
+- Parts of common phrases
+- Category members
+- Multiple word meanings
+- Cultural or contextual relationships
+
+Your goal is to find all groups while making as few mistakes as possible. Be strategic in your guesses and learn from previous feedback.
+
+Based on the above considerations, provide your 4-word guess.
+```
+
+What's interesting is seeing how the prompt was optimized. It added phrases like 'You are a master puzzle solver', but also gave hints such as 'look for obvious thematic connections' and 'consider multiple meaning of each word'. These were learned through analysis of both successful and failed predictions on the unoptimized model.
+
+
+## Final Thoughts
+
+The improvements were pretty dramatic. A 21 percent absolute increase for grok 3 was the most dramatic result and brought it inline with an unoptimized Sonnet 4 model, although the run time was much longer, but the cost much better. GPT5-mini was easily the best model before optimization, and hard to beat after. At only $9.65 it was extremely cost effective too. 
+
+Grok 4 was a very strong model, but *extremely* slow and expensive. It took over 4.5 hours to complete, and was more expensive than all the other models combined. Very odd was Deepseek r1, which started strong, if not slow and expensive, and somehow got worse through optimization.  Unfortunately, the traces did not get saved for the model so I can't debug exactly what happened there.
+
+Overall, this was a fun project to work on and really helped me understand DSPy's eval and optimization framework. I have often struggled with finding a good evaluation metric for generative AI tasks. This Connections puzzle is a straightforward optimization, where the goal is clearly defined and easy to measure. For more complex tasks that have less clear success criteria, those that are defined more by taste or vibes, I'm still not sure how to find a great eval framework that doesn't require a lot of human input; however, there's still plenty of applications where something like this would be helpful.
+
+I hope this was a helpful breakdown of DSPy's eval and optimization framework. If you have any questions or feedback, please feel free to reach out on Twitter/X [@pdrmnvd](https://twitter.com/pdrmnvd) or [Github](https://github.com/pedramnavid/)

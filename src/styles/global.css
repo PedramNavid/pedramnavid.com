@@ -13,26 +13,32 @@
 				transparent 2px
 			);
 		&.dark {
-			@apply bg-stone-950 text-emerald-200;
+			background-color: #242628 !important;
+			color: #b1b4b9 !important;
 			background-image: 
 				repeating-linear-gradient(
 					0deg,
-					rgba(16, 185, 129, 0.05),
-					rgba(16, 185, 129, 0.05) 1px,
+					rgba(177, 180, 185, 0.03),
+					rgba(177, 180, 185, 0.03) 1px,
 					transparent 1px,
 					transparent 2px
 				);
             header, footer {
-                @apply text-emerald-300 border-emerald-900/50;
+                color: #b1b4b9 !important;
+                border-color: rgba(64, 66, 71, 0.5) !important;
             }
 			strong {
-				@apply text-amber-400
+				color: #dfbe81 !important;
 			}
 		}
 	}
 	body {
 		@apply min-h-screen;
 		font-family: 'Inter', system-ui, -apple-system, sans-serif;
+	}
+	
+	.dark body {
+		background-color: #242628 !important;
 	}
 	
 	/* Prevent horizontal overflow on all elements */
@@ -188,16 +194,49 @@ article img,
 
 /** Code block **/
 .astro-code {
-	@apply relative border border-gray-200 dark:border-gray-700 rounded-lg mt-0 overflow-x-auto;
+	@apply relative border border-gray-200 dark:border-gray-700 rounded-lg mt-0;
+	overflow-x: auto;
+	overflow-y: hidden;
+	scrollbar-width: thin;
 }
 
-/* Ensure code blocks don't overflow on mobile */
+/* Hide scrollbar when not needed */
+.astro-code:has(pre code:not(:hover)) {
+	overflow-x: hidden;
+}
+
+/* Show scrollbar on hover if content overflows */
+.astro-code:hover {
+	overflow-x: auto;
+}
+
+/* Ensure code blocks don't create unnecessary scrollbars */
 .astro-code pre {
-	@apply overflow-x-auto;
+	overflow: visible;
+	margin: 0;
+	width: fit-content;
+	min-width: 100%;
 }
 
 .astro-code code {
 	@apply text-sm;
+	display: inline-block;
+	min-width: 100%;
+}
+
+/* Fix for expressive-code plugin */
+.expressive-code {
+	overflow-x: hidden !important;
+}
+
+.expressive-code:hover {
+	overflow-x: auto !important;
+}
+
+.expressive-code pre {
+	overflow-x: visible !important;
+	overflow-y: hidden !important;
+	margin: 0 !important;
 }
 
 @media (max-width: 767px) {
@@ -208,7 +247,10 @@ article img,
 
 /* Mobile-friendly table styles */
 .prose table {
-	@apply w-full overflow-x-auto block;
+	@apply w-full overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm;
+	border-collapse: collapse;
+	border-spacing: 0;
+	table-layout: auto;
 }
 
 @media (max-width: 767px) {
@@ -225,6 +267,66 @@ article img,
 /* Ensure long words break properly */
 .prose {
 	@apply break-words;
+}
+
+/* Enhanced table aesthetics (light + dark) */
+.prose table thead th {
+	@apply bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-emerald-100 font-semibold;
+	@apply border-b border-gray-200 dark:border-gray-700;
+}
+
+.prose table th,
+.prose table td {
+	@apply align-top px-3 py-2 text-sm;
+}
+
+/* Smooth color transitions on hover/focus */
+.prose table th,
+.prose table td,
+.prose table tbody tr {
+	@apply transition-colors duration-200;
+}
+
+/* Zebra banded rows */
+.prose table tbody tr:nth-child(odd) {
+	@apply bg-white dark:bg-stone-900;
+}
+.prose table tbody tr:nth-child(even) {
+	@apply bg-amber-50/60 dark:bg-stone-800/60;
+}
+
+/* Row hover highlight */
+.prose table tbody tr:hover {
+	@apply bg-amber-100/60 dark:bg-stone-700/60 transition-colors;
+}
+
+
+/* Borders between rows and columns for readability */
+.prose table tbody td {
+	@apply border-t border-gray-100 dark:border-stone-800;
+}
+
+/* Style the first column */
+.prose table tbody td:first-child,
+.prose table thead th:first-child {
+	@apply font-medium;
+}
+
+/* Make header stick on overflow (optional nicety) */
+/* Remove sticky header to avoid width mismatch artifacts */
+.prose table thead th { position: static; }
+
+/* Improve caption styling when present */
+.prose table caption {
+	@apply caption-bottom mt-2 text-sm text-gray-600 dark:text-gray-400;
+}
+
+/* Ensure compact cell padding on mobile after enhancements above */
+@media (max-width: 767px) {
+	.prose table th,
+	.prose table td {
+		@apply px-2 py-1;
+	}
 }
 .remark-code-title {
 	@apply inline-block relative top-3 px-3 py-1 text-sm text-gray-600 dark:text-gray-400 bg-gray-100 dark:bg-gray-800 rounded-t-md border border-b-0 border-gray-200 dark:border-gray-700;

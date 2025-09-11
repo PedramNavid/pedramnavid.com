@@ -29,28 +29,48 @@ module.exports = {
             typography: (theme) => ({
                 dark: {
                     css: {
-                        color: theme("colors.gray.300"),
+                        color: '#b1b4b9',
                         a: {
-                            color: theme("colors.blue.400"),
+                            color: '#68aee8',
                             '&:hover': {
-                                color: theme("colors.blue.300"),
+                                color: '#79b7eb',
                             },
                         },
                         blockquote: {
-                            color: theme("colors.gray.300"),
-                            borderLeftColor: theme("colors.gray.600"),
+                            color: '#b1b4b9',
+                            borderLeftColor: '#646568',
                         },
                         'h1, h2, h3, h4': {
-                            color: theme("colors.gray.100"),
+                            color: '#dfbe81',
                         },
                         code: {
-                            color: theme("colors.gray.300"),
+                            display: 'inline-block',
+                            color: '#dfbe81',
+                            backgroundColor: '#35373b',
+                            paddingLeft: '6px',
+                            paddingRight: '6px',
+                            paddingTop: '2px',
+                            paddingBottom: '2px',
+                            borderRadius: '0.25rem',
+                            fontWeight: '400',
+                            borderWidth: '1px',
+                            borderColor: '#404247',
+                        },
+                        'code::before': {
+                            content: '""',
+                        },
+                        'code::after': {
+                            content: '""',
                         },
                         'pre code': {
-                            color: theme("colors.gray.300"),
+                            display: 'block',
+                            color: '#b1b4b9',
+                            backgroundColor: 'transparent',
+                            padding: 0,
+                            border: 'none',
                         },
                         strong: {
-                            color: theme("colors.gray.100"),
+                            color: '#dfbe81',
                         },
                     },
                 },
@@ -76,14 +96,21 @@ module.exports = {
                             fontWeight: '600',
                         },
                         code: {
+                            display: 'inline-block',
                             color: theme("colors.gray.800"),
                             backgroundColor: theme("colors.gray.100"),
-                            paddingLeft: '4px',
-                            paddingRight: '4px',
+                            paddingLeft: '6px',
+                            paddingRight: '6px',
                             paddingTop: '2px',
                             paddingBottom: '2px',
                             borderRadius: '0.25rem',
                             fontWeight: '400',
+                        },
+                        'code::before': {
+                            content: '""',
+                        },
+                        'code::after': {
+                            content: '""',
                         },
                         'pre code': {
                             backgroundColor: 'transparent',
