@@ -15,10 +15,10 @@
         "cz": "cz"
     },
     "devDependencies": {
-        "@astrojs/mdx": "4.3.4",
+        "@astrojs/mdx": "4.3.5",
         "@astrojs/rss": "4.0.12",
-        "@astrojs/sitemap": "3.5.0",
-        "@astrojs/svelte": "7.1.0",
+        "@astrojs/sitemap": "3.5.1",
+        "@astrojs/svelte": "7.1.1",
         "@astrojs/tailwind": "6.0.2",
         "@biomejs/biome": "2.2.0",
         "@fontsource/fira-sans": "^5.2.6",
@@ -26,7 +26,7 @@
         "@tailwindcss/forms": "^0.5.10",
         "@tailwindcss/typography": "^0.5.16",
         "@types/node": "^24.3.0",
-        "astro": "5.13.2",
+        "astro": "5.13.7",
         "commitizen": "^4.3.1",
         "cz-conventional-changelog": "^3.3.0",
         "globby": "^14.1.0",
@@ -39,8 +39,8 @@
         "typescript": "^5.9.2"
     },
     "dependencies": {
-        "@astrojs/markdoc": "0.15.5",
-        "@astrojs/vercel": "8.2.6",
+        "@astrojs/markdoc": "0.15.6",
+        "@astrojs/vercel": "8.2.7",
         "@fontsource/inter": "^5.2.6",
         "@libsql/client": "^0.15.12",
         "astro-decap-cms-oauth": "^0.5.1",
@@ -54,7 +54,8 @@
         "react": "^19.1.1",
         "react-dom": "^19.1.1",
         "rehype-mermaid": "^3.0.0",
-        "remark-mermaidjs": "^7.0.0"
+        "remark-mermaidjs": "^7.0.0",
+        "unist-util-visit": "^5.0.0"
     },
     "config": {
         "commitizen": {

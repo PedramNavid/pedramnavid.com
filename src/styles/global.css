@@ -247,20 +247,38 @@ article img,
 
 /* Mobile-friendly table styles */
 .prose table {
-	@apply w-full overflow-x-auto border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm;
+	@apply border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm;
 	border-collapse: collapse;
 	border-spacing: 0;
 	table-layout: auto;
+	width: 100%;
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 767px) {
 	.prose table {
 		@apply text-sm;
+		min-width: fit-content;
 	}
 	
 	.prose table th,
 	.prose table td {
 		@apply px-2 py-1;
+		white-space: nowrap;
+	}
+	
+	/* Ensure the table container is scrollable on mobile */
+	.prose {
+		overflow-x: visible;
+	}
+	
+	/* Add visual indicator for scrollable tables */
+	.prose table {
+		box-shadow: 
+			0 1px 2px 0 rgb(0 0 0 / 0.05),
+			inset -10px 0 10px -10px rgba(0,0,0,0.1);
 	}
 }
 

@@ -63,3 +63,4 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 **Database features disabled:** View stats and other database features are turned off (`USE_VIEW_STATS: false`).
 
 **Build process:** The build automatically triggers search index generation as a post-build step.
+- add to memory to only use bun
