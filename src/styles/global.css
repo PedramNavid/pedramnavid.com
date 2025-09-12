@@ -361,3 +361,32 @@ html.dark {
 	--astro-code-token-punctuation: #c9d1d9;
 	--astro-code-token-link: #000012;
 }
+
+/* Mermaid dark-mode readability fixes */
+.dark .prose svg .messageText,
+.dark .prose svg .noteText,
+.dark .prose svg .loopText,
+.dark .prose svg .titleText,
+.dark .prose svg .actor,
+.dark .prose svg text,
+.dark .prose svg tspan {
+  fill: #e5e7eb !important; /* gray-200 */
+  color: #e5e7eb !important;
+}
+
+.dark .prose svg .note,
+.dark .prose svg .label,
+.dark .prose svg .messageLine0,
+.dark .prose svg .messageLine1,
+.dark .prose svg .loopLine {
+  stroke: #9ca3af !important; /* gray-400 */
+}
+
+/* On light-filled shapes (notes/actor boxes), use dark text for contrast */
+.dark .prose svg .noteText,
+.dark .prose svg .noteText tspan,
+.dark .prose svg .actor.actor-box,
+.dark .prose svg .actor.actor-box tspan {
+  fill: #111827 !important; /* gray-900 */
+  color: #111827 !important;
+}
