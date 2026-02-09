@@ -6,30 +6,30 @@ interface Props {
 }
 
 const ICON_MAP: Record<CalloutType, string> = {
-    'check': '✓',
-    'error': '✕',
-    'note': '📝',
-    'warning': '⚠',
-    'tip': '💡',
-    'info': 'ℹ'
+    'check': '\u2713',
+    'error': '\u2715',
+    'note': '\ud83d\udcdd',
+    'warning': '\u26a0',
+    'tip': '\ud83d\udca1',
+    'info': '\u2139'
 }
 
 const COLOR_MAP: Record<CalloutType, string> = {
-    'check': 'text-green-700 dark:text-green-400',
-    'error': 'text-red-700 dark:text-red-400',
-    'note': 'text-gray-700 dark:text-gray-300',
-    'warning': 'text-orange-700 dark:text-orange-400',
-    'tip': 'text-amber-700 dark:text-amber-300',
-    'info': 'text-blue-700 dark:text-blue-400'
+    'check': 'text-green-700',
+    'error': 'text-red-700',
+    'note': 'text-charcoal-muted',
+    'warning': 'text-orange-700',
+    'tip': 'text-amber-700',
+    'info': 'text-blue-700'
 }
 
 const BG_MAP: Record<CalloutType, string> = {
-    'check': 'bg-green-50 dark:bg-green-950/30 border-l-green-500',
-    'error': 'bg-red-50 dark:bg-red-950/30 border-l-red-500',
-    'note': 'bg-gray-50 dark:bg-gray-800/30 border-l-gray-400',
-    'warning': 'bg-orange-50 dark:bg-orange-950/30 border-l-orange-500',
-    'tip': 'bg-amber-50 dark:bg-amber-950/30 border-l-amber-500',
-    'info': 'bg-blue-50 dark:bg-blue-950/30 border-l-blue-500'
+    'check': 'bg-green-50 border-l-green-500',
+    'error': 'bg-red-50 border-l-red-500',
+    'note': 'bg-cream-200 border-l-charcoal-faint',
+    'warning': 'bg-orange-50 border-l-orange-500',
+    'tip': 'bg-amber-50 border-l-amber-500',
+    'info': 'bg-blue-50 border-l-blue-500'
 }
 
 const { title, type = 'info' } = Astro.props
@@ -51,30 +51,21 @@ const { title, type = 'info' } = Astro.props
         transition: all 0.2s ease;
         font-family: inherit;
     }
-    
     .callout-content :global(p:first-child) {
         margin-top: 0;
     }
-    
     .callout-content :global(p:last-child) {
         margin-bottom: 0;
     }
-    
     .callout-content :global(p) {
         line-height: 1.6;
     }
-    
     .icon-wrapper {
         background-color: currentColor;
         opacity: 0.15;
     }
-    
     .icon-wrapper span {
         opacity: 6;
         mix-blend-mode: multiply;
-    }
-    
-    .dark .icon-wrapper span {
-        mix-blend-mode: screen;
     }
 </style>

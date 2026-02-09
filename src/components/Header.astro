@@ -1,103 +1,70 @@
 ---
-    import { SITE } from '$/config'
-    import SvgIcon from './SvgIcon.astro'
-    import BirdLogo from './BirdLogo.astro'
-    import ModeSwitcherBtn from './ModeSwitcherBtn.svelte'
-    import SearchBtn from './SearchBtn.svelte'
-
+import { SITE, NAV_ITEMS } from '$/config'
 ---
 
 <header class="header">
     <div class="header__content">
-        <div class="header__logo">
-            <a href="/" class="avatar">
-                <div class="header__logo-wrapper">
-                    <BirdLogo />
-                </div>
-            </a>
-        </div>
-        <div class="header__meta flex-1">
-            <h3 class="header__title">
-                <a href="/">
-                    <span class="header__title-text">{ SITE.name }</span>
-                    <span class="header__cursor">_</span>
+        <a href="/" class="header__logo">
+            <span class="header__logo-accent"></span>
+            <span class="header__logo-text">{SITE.name.toUpperCase()}</span>
+        </a>
+        <nav class="header__nav">
+            {Object.keys(NAV_ITEMS).map(key => (
+                <a
+                    class:list={[
+                        'header__nav-link',
+                        Astro.url.pathname === NAV_ITEMS[key].path ||
+                        (NAV_ITEMS[key].path !== '/' && Astro.url.pathname.startsWith(NAV_ITEMS[key].path))
+                            ? 'header__nav-link--active' : ''
+                    ]}
+                    href={NAV_ITEMS[key].path}
+                >
+                    {NAV_ITEMS[key].title.toUpperCase()}
                 </a>
-            </h3>
-            <div class="header__meta-more flex">
-                <p class="header__desc">
-                    <span class="desc-prefix">&gt;&gt;</span> { SITE.description }
-                </p>
-                <nav class="header__nav flex">
-                    <ul class="header__ref-list">
-                        <li>
-                            <SearchBtn client:visible />
-                        </li>
-                        <li>
-                            <a href={ SITE.githubUrl } title={`${ SITE.name }'s Github URL'`} class="header__icon-link">
-                                <span class="icon-bracket">[</span>
-                                <SvgIcon>
-                                    <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                                </SvgIcon>
-                                <span class="icon-bracket">]</span>
-                            </a>
-                        </li>
-                        <li>
-                            <ModeSwitcherBtn client:visible />
-                        </li>
-                    </ul>
-                </nav>
-            </div>
+            ))}
+        </nav>
+        <div class="header__social">
+            <a href={SITE.githubUrl} class="header__social-link" target="_blank" rel="noopener">GitHub</a>
+            <a href={`https://twitter.com/${SITE.authorTwitter}`} class="header__social-link" target="_blank" rel="noopener">Twitter</a>
         </div>
     </div>
 </header>
 
 <style>
     .header {
-        @apply relative py-2 mb-4 border-b border-stone-200 dark:border-stone-800;
+        @apply py-5 border-b border-cream-300;
     }
     .header__content {
-        @apply flex items-center gap-4 py-3 px-2;
+        @apply flex items-center justify-between gap-6;
     }
-    .header__logo-wrapper {
-        @apply relative;
+    .header__logo {
+        @apply flex items-center gap-2 no-underline;
     }
-    .header__title {
-        @apply text-2xl font-bold text-stone-900 dark:text-emerald-400;
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    .header__logo-accent {
+        @apply w-3 h-3 bg-coral rounded-sm flex-shrink-0;
     }
-    .header__title-text {
-        @apply inline-block;
-        text-shadow: 2px 2px 0 rgba(251, 146, 60, 0.3);
+    .header__logo-text {
+        @apply font-mono text-sm font-semibold tracking-wider text-charcoal;
     }
-    .dark .header__title-text {
-        text-shadow: 2px 2px 0 rgba(16, 185, 129, 0.3);
+    .header__nav {
+        @apply flex items-center gap-6;
     }
-    .header__cursor {
-        @apply inline-block text-orange-600 dark:text-emerald-400;
-        animation: blink 1s infinite;
+    .header__nav-link {
+        @apply font-mono text-xs tracking-widest text-charcoal-muted no-underline transition-colors;
     }
-    .header__desc {
-        @apply text-base text-stone-700 dark:text-emerald-300 flex-1;
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        font-size: 0.875rem;
+    .header__nav-link:hover {
+        @apply text-charcoal;
     }
-    .desc-prefix {
-        @apply text-orange-600 dark:text-emerald-500 mr-2;
+    .header__nav-link--active {
+        @apply text-charcoal;
     }
-    .header__ref-list {
-        @apply flex items-center gap-3 text-stone-700 dark:text-emerald-400;
+    .header__social {
+        @apply hidden md:flex items-center gap-4;
     }
-    .header__icon-link {
-        @apply flex items-center transition-all duration-100;
+    .header__social-link {
+        @apply font-mono text-xs tracking-wide text-charcoal-faint no-underline transition-colors;
     }
-    .header__icon-link:hover {
-        @apply text-orange-600 dark:text-amber-400;
-        transform: translateY(-2px);
-    }
-    .icon-bracket {
-        @apply text-xs font-mono text-stone-600 dark:text-emerald-600;
-    }
-    .header__icon-link:hover .icon-bracket {
-        @apply text-orange-600 dark:text-amber-400;
+    .header__social-link:hover {
+        @apply text-charcoal;
     }
 </style>

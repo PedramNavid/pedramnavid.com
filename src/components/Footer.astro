@@ -1,60 +1,36 @@
 ---
-    import { SITE } from '$/config'
-    import ModeLabel from './ModeLabel.svelte'
+import { SITE } from '$/config'
 ---
 <footer class="footer">
-    <div class="footer-content">
-        <div class="footer-main">
-            <p class="copyright">
-                <span class="copyright-symbol">©</span> 
-                <span class="year">{ new Date().getFullYear() }</span> 
-                <span class="name">{ SITE.name }</span>
-            </p>
-            <div class="footer-links">
-                <a href={ SITE.githubUrl } class="footer-link" title={`${ SITE.name }'s Github URL'`}>
-                    <span class="link-bracket">[</span>GITHUB<span class="link-bracket">]</span>
-                </a>
-            </div>
+    <div class="footer__content">
+        <p class="footer__copyright">
+            &copy; {new Date().getFullYear()} {SITE.name}
+        </p>
+        <div class="footer__links">
+            <a href={SITE.githubUrl} class="footer__link" target="_blank" rel="noopener">GitHub</a>
+            <a href={`https://twitter.com/${SITE.authorTwitter}`} class="footer__link" target="_blank" rel="noopener">Twitter</a>
+            <a href="https://www.linkedin.com/in/pedramnavid/" class="footer__link" target="_blank" rel="noopener">LinkedIn</a>
         </div>
     </div>
 </footer>
+
 <style>
     .footer {
-        @apply py-8 mt-16 border-t border-stone-200 dark:border-stone-800;
+        @apply py-10 mt-20 border-t border-cream-300;
     }
-    .footer-content {
-        @apply space-y-3;
-    }
-    .footer-main {
+    .footer__content {
         @apply flex items-center justify-between;
     }
-    .copyright {
-        @apply text-stone-700 dark:text-emerald-400;
-        font-family: 'IBM Plex Mono', monospace;
-        font-size: 0.875rem;
+    .footer__copyright {
+        @apply font-mono text-xs text-charcoal-faint tracking-wide;
     }
-    .copyright-symbol {
-        @apply text-orange-600 dark:text-amber-500;
+    .footer__links {
+        @apply flex items-center gap-4;
     }
-    .year {
-        @apply text-orange-600 dark:text-emerald-500;
+    .footer__link {
+        @apply font-mono text-xs text-charcoal-faint no-underline tracking-wide transition-colors;
     }
-    .name {
-        @apply text-stone-900 dark:text-emerald-300 font-bold;
-    }
-    .footer-links {
-        @apply flex gap-4;
-    }
-    .footer-link {
-        @apply text-stone-700 dark:text-emerald-400 transition-all duration-100;
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        font-size: 0.875rem;
-    }
-    .footer-link:hover {
-        @apply text-orange-600 dark:text-amber-400;
-        transform: translateY(-2px);
-    }
-    .link-bracket {
-        @apply text-orange-600 dark:text-emerald-600;
+    .footer__link:hover {
+        @apply text-charcoal;
     }
 </style>

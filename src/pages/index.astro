@@ -1,107 +1,93 @@
 ---
 export const prerender = true
 
-import { getCollection, getEntryBySlug } from 'astro:content'
+import { getCollection } from 'astro:content'
 import DefaultPageLayout from '$/layouts/default.astro'
-import PostPreviewList from '$/components/PostPreviewList.astro'
-import Prose from '$/components/Prose.astro'
-import { Content as AboutAstroInk } from './_astro-ink.md'
-
+import PostPreview from '$/components/PostPreview.astro'
+import { calculateReadingTime, getMonthName } from '$/utils'
 
 const title = 'Home'
-const description = 'Data engineering, developer tools, and programming insights'
+const description = 'Writing about software engineering, data, AI, and building things.'
 
 const allPosts = await getCollection('blog')
-const posts = allPosts.sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
+const posts = allPosts.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf())
+const recentPosts = posts.slice(0, 4)
 ---
 <DefaultPageLayout content={{ title, description }} showPageHeader={false}>
-    <div class="hero">
-        <div class="hero__content">
-            <Prose>
-                <AboutAstroInk/>
-            </Prose>
+    <div class="home">
+        <div class="home__intro">
+            <h1 class="home__heading">
+                Hi, I'm <span class="home__name">Pedram</span>.
+            </h1>
+            <p class="home__bio">
+            I work at <a href="https://anthropic.com" class="home__link">Anthropic</a>. I enjoy educating techincal
+            audiences on complex topics. I built the public <a href="https://platform.claude.com/cookbook" class="home__link">Claude Cookbooks</a> site,
+            and you'll often find me writing on <a href="https://x.com/pdrmnvd" class="home__link">X</a>.
+            </p>
+            <p class="home__bio">
+                This is my corner of the internet; a place for
+                <a href="/blog" class="home__link">writing</a>,
+                <a href="/projects" class="home__link">projects</a>,
+                and notes on what I'm <a href="/now" class="home__link">working on now</a>.
+            </p>
+        </div>
+
+        <div class="home__grid">
+            <div class="home__section-label">
+                <span class="home__label">// RECENT WRITING</span>
+            </div>
+            <div class="home__cards">
+                {recentPosts.map(post => (
+                    <PostPreview post={post} asCard={true} />
+                ))}
+            </div>
+            <a href="/blog" class="home__view-all">
+                View all writing &rarr;
+            </a>
         </div>
     </div>
-    <PostPreviewList posts={posts.slice(0, 3)} heading="recent posts"/>
-    <div class="page__actions">
-        <a class="action__go-to-blog" href="/blog" title="All Posts">
-            <span class="btn-text">&gt; VIEW ALL CONTENT</span>
-            <span class="btn-arrow">▶</span>
-        </a>
-    </div>
-    <div class="divider"></div>
-    <PostPreviewList posts={posts} heading="all posts"/>
 </DefaultPageLayout>
 
 <style>
-    .hero {
-        @apply relative py-8 mb-8;
+    .home {
+        @apply py-12 md:py-20;
     }
-    .hero__content {
-        @apply max-w-3xl mx-auto relative z-10 text-center mb-6;
+    .home__intro {
+        @apply max-w-2xl mb-16 md:mb-24;
     }
-    
-    .page__actions {
-        @apply flex justify-center py-4;
+    .home__heading {
+        @apply font-serif text-4xl md:text-5xl lg:text-6xl font-bold text-charcoal mb-6 leading-tight;
     }
-    .action__go-to-blog {
-        @apply inline-flex items-center gap-3 px-6 py-3 bg-gradient-to-b from-orange-600 to-red-700 dark:from-emerald-600 dark:to-teal-700;
-        @apply border-2 border-stone-900 dark:border-emerald-400 text-amber-50;
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        font-size: 0.875rem;
-        font-weight: 600;
-        box-shadow: 
-            4px 4px 0 rgba(0, 0, 0, 0.5),
-            inset 0 -2px 0 rgba(0, 0, 0, 0.3);
-        text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
-        transition: all 0.1s;
+    .home__name {
+        @apply text-coral;
     }
-    .action__go-to-blog:hover {
-        transform: translate(-2px, -2px);
-        box-shadow: 
-            6px 6px 0 rgba(0, 0, 0, 0.5),
-            inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+    .home__bio {
+        @apply text-lg md:text-xl text-charcoal-light leading-relaxed mb-4;
     }
-    .action__go-to-blog:active {
-        transform: translate(2px, 2px);
-        box-shadow: 
-            2px 2px 0 rgba(0, 0, 0, 0.5),
-            inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+    .home__link {
+        @apply text-coral font-medium no-underline;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
     }
-    .btn-arrow {
-        @apply animate-pulse;
+    .home__link:hover {
+        border-bottom-color: currentColor;
     }
-    
-    /* Style the prose content */
-    :global(.hero .prose h1) {
-        @apply text-2xl md:text-3xl font-bold text-stone-900 dark:text-emerald-400 mb-4 !important;
-        font-family: system-ui, -apple-system, sans-serif !important;
-        color: rgb(41 37 36) !important;
+    .home__grid {
+        @apply mt-8;
     }
-    :global(.dark .hero .prose h1) {
-        color: rgb(52 211 153) !important;
+    .home__section-label {
+        @apply mb-6;
     }
-    :global(.hero .prose p) {
-        @apply text-lg md:text-xl text-stone-700 dark:text-emerald-300 leading-relaxed mb-0;
-        font-family: system-ui, -apple-system, sans-serif;
+    .home__label {
+        @apply font-mono text-xs tracking-widest text-coral uppercase;
     }
-    :global(.hero .prose a) {
-        @apply text-orange-600 dark:text-amber-400 font-bold;
-        text-decoration: none;
-        position: relative;
+    .home__cards {
+        @apply grid grid-cols-1 md:grid-cols-2 gap-4;
     }
-    :global(.hero .prose a::after) {
-        content: '';
-        position: absolute;
-        bottom: -2px;
-        left: 0;
-        width: 100%;
-        height: 2px;
-        background: currentColor;
-        transform: scaleX(0);
-        transition: transform 0.2s;
+    .home__view-all {
+        @apply inline-block mt-8 font-mono text-sm text-charcoal-muted no-underline tracking-wide transition-colors;
     }
-    :global(.hero .prose a:hover::after) {
-        transform: scaleX(1);
+    .home__view-all:hover {
+        @apply text-coral;
     }
 </style>

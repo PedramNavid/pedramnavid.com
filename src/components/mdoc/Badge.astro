@@ -13,39 +13,24 @@ const { text, type = 'note', outline = false } = Astro.props
 
 <style>
     .ink-badge {
-        @apply inline-block font-xs font-normal text-inherit bg-theme-primary dark:bg-theme-dark-primary px-3 py-1 border-1 rounded-b-md 
+        @apply inline-block font-mono text-xs text-charcoal bg-cream-200 px-3 py-1 rounded-md;
     }
     .ink-badge--outline {
-        @apply bg-transparent
+        @apply bg-transparent;
     }
     .ink-badge__success {
-        @apply bg-green-300
+        @apply bg-green-100 text-green-800;
     }
     .ink-badge__danger {
-        @apply bg-red-300
+        @apply bg-red-100 text-red-800;
     }
     .ink-badge__note {
-        @apply bg-gray-300
+        @apply bg-cream-200 text-charcoal;
     }
     .ink-badge__warning {
-        @apply bg-orange-300
+        @apply bg-orange-100 text-orange-800;
     }
     .ink-badge__tip {
-        @apply bg-yellow-300
-    }
-    .ink-badge--outline.ink-badge__success {
-        @apply border-green-300
-    }
-    .ink-badge--outline.ink-badge__danger {
-        @apply border-red-300
-    }
-    .ink-badge--outline.ink-badge__note {
-        @apply border-gray-300
-    }
-    .ink-badge--outline.ink-badge__warning {
-        @apply border-orange-300
-    }
-    .ink-badge--outline.ink-badge__tip {
-        @apply border-yellow-300
+        @apply bg-yellow-100 text-yellow-800;
     }
 </style>

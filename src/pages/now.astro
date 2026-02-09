@@ -1,0 +1,62 @@
+---
+import DefaultPageLayout from '$/layouts/default.astro'
+import Prose from '$/components/Prose.astro'
+
+const title = 'Now'
+const description = 'What I\'m doing right now.'
+---
+<DefaultPageLayout content={{ title, description }}>
+    <div class="now">
+        <p class="now__updated">
+            // LAST UPDATED: FEBRUARY 2026
+        </p>
+        <Prose>
+            <h2>Work</h2>
+            <p>
+                Working at <a href="https://anthropic.com">Anthropic</a>, helping technical
+                audiences understand and build with Claude. I built the public
+                <a href="https://platform.claude.com/cookbook">Claude Cookbooks</a> site
+                and spend a lot of time thinking about developer education.
+            </p>
+
+            <h2>Building</h2>
+            <p>
+                Recently built <a href="https://github.com/PedramNavid/petit">petit</a>,
+                a lightweight orchestrator with a TUI in Rust, using Claude Code and Opus.
+                The whole thing came together in about half a day &mdash; a good example of
+                what's possible when you pair frontier models with a well-scoped spec.
+            </p>
+            <p>
+                Also tinkering with <a href="https://github.com/PedramNavid/dspy-connections">DSPy</a>
+                for LLM optimization, and still maintaining <a href="https://github.com/PedramNavid/dbtpal">dbtpal</a>.
+            </p>
+
+            <h2>Writing</h2>
+            <p>
+                Writing about AI, developer tools, and the experience of building software
+                with LLMs on this site and on <a href="https://x.com/pdrmnvd">X</a>.
+            </p>
+        </Prose>
+        <p class="now__inspired">
+            This is a <a href="https://nownownow.com/about" class="now__link">now page</a>.
+        </p>
+    </div>
+</DefaultPageLayout>
+
+<style>
+    .now {
+        @apply pb-12;
+    }
+    .now__updated {
+        @apply font-mono text-xs tracking-widest text-coral mb-8;
+    }
+    .now__inspired {
+        @apply mt-12 font-mono text-xs text-charcoal-faint;
+    }
+    .now__link {
+        @apply text-coral no-underline;
+    }
+    .now__link:hover {
+        @apply underline;
+    }
+</style>

@@ -1,0 +1,213 @@
+---
+import DefaultPageLayout from '$/layouts/default.astro'
+
+const title = 'Talks'
+const description = 'Conference talks, podcast appearances, and other speaking engagements.'
+
+const talks = [
+    {
+        name: 'Snowflake Summit',
+        year: '2025',
+        topic: 'AI and Data Engineering',
+        url: null,
+        type: 'conference',
+    },
+    {
+        name: 'Data Council',
+        year: '2025',
+        topic: 'AI and Data Engineering',
+        url: null,
+        type: 'conference',
+    },
+    {
+        name: 'MDS Fest',
+        year: '2024',
+        topic: 'Data Engineering',
+        url: null,
+        type: 'conference',
+    },
+    {
+        name: 'Data Council',
+        year: '2023',
+        topic: 'Data Engineering',
+        url: null,
+        type: 'conference',
+    },
+    {
+        name: 'MDS Fest',
+        year: '2023',
+        topic: 'Data Engineering',
+        url: null,
+        type: 'conference',
+    },
+    {
+        name: 'Osacon',
+        year: '2023',
+        topic: 'Open Source Analytics',
+        url: null,
+        type: 'conference',
+    },
+    {
+        name: 'Talk Python to Me',
+        year: '2023',
+        topic: 'Podcast Appearance',
+        url: 'https://talkpython.fm/episodes/show/441/python-data-engineering-with-dagster',
+        type: 'podcast',
+    },
+    {
+        name: 'Analytics Power Hour',
+        year: '2023',
+        topic: 'Podcast Appearance',
+        url: null,
+        type: 'podcast',
+    },
+    {
+        name: 'Dagster: An Elegant Dependency System — Even for Unruly Data',
+        year: '2023',
+        topic: 'YouTube Talk',
+        url: 'https://www.youtube.com/watch?v=eAEIGiB2nJs',
+        type: 'talk',
+    },
+    {
+        name: 'Data Aware Scheduling with Dagster',
+        year: '2022',
+        topic: 'YouTube Talk',
+        url: 'https://www.youtube.com/watch?v=9smej8dYjYA',
+        type: 'talk',
+    },
+]
+
+const conferences = talks.filter(t => t.type === 'conference')
+const podcasts = talks.filter(t => t.type === 'podcast')
+const recordings = talks.filter(t => t.type === 'talk')
+---
+<DefaultPageLayout content={{ title, description }}>
+    <div class="talks">
+        <p class="talks__intro">
+            I speak about data engineering, AI, developer tools, and building
+            software with LLMs at conferences, meetups, and on podcasts.
+        </p>
+
+        <section class="talks__section">
+            <h2 class="talks__heading">Conferences</h2>
+            <div class="talks__list">
+                {conferences.map(talk => (
+                    <div class="talk">
+                        <span class="talk__year">{talk.year}</span>
+                        <div class="talk__details">
+                            {talk.url ? (
+                                <a href={talk.url} class="talk__name talk__name--link" target="_blank" rel="noopener">
+                                    {talk.name} <span class="talk__arrow">&nearr;</span>
+                                </a>
+                            ) : (
+                                <span class="talk__name">{talk.name}</span>
+                            )}
+                            <span class="talk__topic">{talk.topic}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <section class="talks__section">
+            <h2 class="talks__heading">Recorded Talks</h2>
+            <div class="talks__list">
+                {recordings.map(talk => (
+                    <div class="talk">
+                        <span class="talk__year">{talk.year}</span>
+                        <div class="talk__details">
+                            {talk.url ? (
+                                <a href={talk.url} class="talk__name talk__name--link" target="_blank" rel="noopener">
+                                    {talk.name} <span class="talk__arrow">&nearr;</span>
+                                </a>
+                            ) : (
+                                <span class="talk__name">{talk.name}</span>
+                            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <section class="talks__section">
+            <h2 class="talks__heading">Podcasts</h2>
+            <div class="talks__list">
+                {podcasts.map(talk => (
+                    <div class="talk">
+                        <span class="talk__year">{talk.year}</span>
+                        <div class="talk__details">
+                            {talk.url ? (
+                                <a href={talk.url} class="talk__name talk__name--link" target="_blank" rel="noopener">
+                                    {talk.name} <span class="talk__arrow">&nearr;</span>
+                                </a>
+                            ) : (
+                                <span class="talk__name">{talk.name}</span>
+                            )}
+                            <span class="talk__topic">{talk.topic}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </section>
+
+        <section class="talks__section">
+            <h2 class="talks__heading">Other</h2>
+            <div class="talks__list">
+                <div class="talk">
+                    <span class="talk__year">2023</span>
+                    <div class="talk__details">
+                        <a href="https://rustfordata.com" class="talk__name talk__name--link" target="_blank" rel="noopener">
+                            Rust for Data <span class="talk__arrow">&nearr;</span>
+                        </a>
+                        <span class="talk__topic">An open-source guide for learning Rust through data engineering</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</DefaultPageLayout>
+
+<style>
+    .talks {
+        @apply pb-12;
+    }
+    .talks__intro {
+        @apply text-lg text-charcoal-light leading-relaxed mb-12 max-w-2xl;
+    }
+    .talks__section {
+        @apply mb-12;
+    }
+    .talks__heading {
+        @apply font-serif text-2xl font-bold text-charcoal mb-6;
+    }
+    .talks__list {
+        @apply flex flex-col;
+    }
+    .talk {
+        @apply flex items-baseline gap-6 py-3 border-b border-cream-200;
+    }
+    .talk:first-child {
+        @apply border-t;
+    }
+    .talk__year {
+        @apply font-mono text-xs tracking-widest text-coral w-12 shrink-0;
+    }
+    .talk__details {
+        @apply flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4;
+    }
+    .talk__name {
+        @apply font-medium text-charcoal;
+    }
+    .talk__name--link {
+        @apply text-charcoal no-underline transition-colors;
+    }
+    .talk__name--link:hover {
+        @apply text-coral;
+    }
+    .talk__arrow {
+        @apply text-xs text-charcoal-faint;
+    }
+    .talk__topic {
+        @apply font-mono text-xs text-charcoal-faint tracking-wide;
+    }
+</style>

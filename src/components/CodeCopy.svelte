@@ -16,13 +16,13 @@
             if(preElm?.tagName === 'PRE' && codeElm) {
                 await navigator.clipboard.writeText(codeElm.innerText);
                 copied = true
-        
+
                 setTimeout(() => {
                     copied = false
                 }, stayCopied);
             }
         }
-        
+
     };
 
     onMount(() => {
@@ -34,10 +34,10 @@
         }
     })
 </script>
-<button 
-    bind:this={selfElm} 
-    on:click={copy} 
-    class="absolute px-2 text-theme-primary dark:text-theme-dark-primary border-1 rounded-lg" 
+<button
+    bind:this={selfElm}
+    on:click={copy}
+    class="absolute px-2 text-charcoal-muted border border-cream-200 rounded-lg font-mono text-xs hover:text-charcoal hover:bg-cream-200 transition-colors"
     style="top: 6px; right: 8px;"
     style:display={isCodeBlock ? 'inline-block' : 'none'}
     disabled={copied}

@@ -30,20 +30,27 @@ const { page } = Astro.props
         )}
     </div>
 </nav>
+
 <style>
     .pagination {
-        @apply flex items-center justify-between py-8 mt-8 border-t border-gray-100 dark:border-gray-800
+        @apply flex items-center justify-between py-8 mt-8 border-t border-cream-200;
     }
     .pagination__info {
-        @apply text-sm text-gray-600 dark:text-gray-400
+        @apply font-mono text-sm text-charcoal-faint;
     }
     .pagination__actions {
-        @apply flex gap-3
+        @apply flex gap-3;
     }
     .pagination__link {
-        @apply inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700 dark:hover:bg-gray-700 transition-colors
+        @apply inline-flex items-center gap-2 px-4 py-2 font-mono text-sm text-charcoal-light bg-cream-50 border border-cream-200 transition-colors no-underline;
+    }
+    .pagination__link:hover {
+        @apply bg-cream-200 text-charcoal;
     }
     .pagination__link--disabled {
-        @apply opacity-50 cursor-not-allowed hover:bg-white dark:hover:bg-gray-800
+        @apply opacity-40 cursor-not-allowed;
+    }
+    .pagination__link--disabled:hover {
+        @apply bg-cream-50;
     }
 </style>

@@ -1,6 +1,4 @@
 ---
-import { getTagColor } from '$/utils'
-
 interface Props {
     tag: string;
     href?: string;
@@ -8,18 +6,17 @@ interface Props {
 }
 
 const { tag, href, size = 'sm' } = Astro.props;
-const colorClass = getTagColor(tag);
 const sizeClass = {
-    'sm': 'text-xs px-2 py-1',
-    'md': 'text-sm px-3 py-1.5', 
-    'lg': 'text-base px-4 py-2'
+    'sm': 'text-xs px-2 py-0.5',
+    'md': 'text-xs px-3 py-1',
+    'lg': 'text-sm px-4 py-1.5'
 }[size];
 
 const Element = href ? 'a' : 'span';
 ---
 
-<Element 
-    class={`tag-badge ${colorClass} ${sizeClass}`}
+<Element
+    class={`tag-badge ${sizeClass}`}
     href={href}
     title={tag}
 >
@@ -28,18 +25,12 @@ const Element = href ? 'a' : 'span';
 
 <style>
     .tag-badge {
-        @apply inline-flex items-center font-medium rounded-full transition-all duration-200 hover:scale-105;
+        @apply inline-flex items-center font-mono tracking-wide bg-cream-200 text-charcoal-muted transition-colors;
     }
-    
-    .tag-badge:hover {
-        @apply shadow-sm;
-    }
-    
     a.tag-badge {
         @apply no-underline;
     }
-    
     a.tag-badge:hover {
-        @apply transform -translate-y-0.5 shadow-md;
+        @apply bg-cream-300 text-charcoal;
     }
 </style>

@@ -20,7 +20,7 @@ const entry = await getEntryBySlug('blog', slug!)
 const { id, collection, data } = entry
 const { Content } = await entry.render()
 ---
-<PostLayout meta={{id, collection, slug }} content={data} >
+<PostLayout meta={{id, collection, slug }} content={data}>
     <Content components={{
         code: Code
     }}/>

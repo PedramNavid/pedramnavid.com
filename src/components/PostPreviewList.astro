@@ -3,34 +3,35 @@ import type { CollectionEntry } from 'astro:content';
 import PostPreview from './PostPreview.astro'
 
 interface Props {
-    posts: CollectionEntry<'blog'>
+    posts: CollectionEntry<'blog'>[]
     heading?: string
     mode?: 'row' | 'col'
 }
 
 const { posts, heading, mode = 'col' } = Astro.props
-const sortedPosts = posts.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+const sortedPosts = posts.sort((a, b) => new Date(b.data.date).valueOf() - new Date(a.data.date).valueOf());
 ---
-{ heading ? <h5 class={`post-preview__heading post-preview__heading--${mode} ink-h`}>{heading}</h5> : ''}
-<section class={`post-preview__list post-preview__list--${mode}`}>
+{heading && <h2 class={`list__heading ${mode === 'row' ? 'list__heading--row' : ''}`}>{heading}</h2>}
+<section class={`list ${mode === 'row' ? 'list--row' : 'list--col'}`}>
     {sortedPosts.map((post) => (
-        <PostPreview post={post} asCard={mode === 'row' ? true : false }/>
+        <PostPreview post={post} asCard={mode === 'row'} />
     ))}
 </section>
+
 <style>
-    .post-preview__heading {
-        @apply text-2xl font-semibold text-gray-900 dark:text-gray-100 mb-8
+    .list__heading {
+        @apply font-serif text-2xl font-bold text-charcoal mb-8;
     }
-    .post-preview__heading--row {
-        @apply mb-6
+    .list__heading--row {
+        @apply mb-6;
     }
-    .post-preview__list {
-        @apply flex flex-col
+    .list {
+        @apply flex flex-col;
     }
-    .post-preview__list--row {
-        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6
+    .list--row {
+        @apply grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4;
     }
-    .post-preview__list--col {
-        @apply flex-col
+    .list--col {
+        @apply flex-col;
     }
 </style>

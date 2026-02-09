@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:chester.how)",
+      "WebFetch(domain:lingxi.li)",
+      "WebFetch(domain:www.tomosman.com)",
+      "Bash(bun add:*)",
+      "Bash(bun run build:*)",
+      "Bash(bun run check:*)",
+      "Bash(bun run:*)",
+      "Bash(git stash:*)",
+      "Bash(ls:*)"
+    ]
+  }
+}

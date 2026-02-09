@@ -1,110 +1,81 @@
 const { fontFamily } = require('tailwindcss/defaultTheme')
-const config = require('./tailwind.theme.config.cjs')
-/**
- * Find the applicable theme color palette, or use the default one
- */
-const themeConfig = process.env.THEME_KEY && config[process.env.THEME_KEY] ? config[process.env.THEME_KEY] : config.default
-const { colors } = themeConfig
+
 module.exports = {
-    darkMode: 'class',
     content: [
         './public/**/*.html',
-        './src/**/*.{astro,js,ts}'
+        './src/**/*.{astro,js,ts,svelte,mdx,md}'
     ],
-    safelist: ['dark'],
     theme: {
         fontFamily: {
-            sans: ['IBM Plex Mono', 'Inter', '-apple-system', 'BlinkMacSystemFont', ...fontFamily.sans],
-            mono: ['VT323', 'Fira Code', ...fontFamily.mono],
-            pixel: ['Press Start 2P', 'monospace'],
-            retro: ['VT323', 'monospace'],
-            terminal: ['IBM Plex Mono', 'monospace'],
+            serif: ['Playfair Display', 'Georgia', 'Times New Roman', ...fontFamily.serif],
+            sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', ...fontFamily.sans],
+            mono: ['IBM Plex Mono', 'Menlo', 'Monaco', ...fontFamily.mono],
         },
         extend: {
             colors: {
-                theme: {
-                    ...colors
-                }
+                cream: {
+                    50: '#faf8f4',
+                    100: '#f5f0ea',
+                    200: '#ede5d8',
+                    300: '#ddd0bc',
+                    400: '#c9b599',
+                },
+                charcoal: {
+                    DEFAULT: '#2c2c2c',
+                    light: '#4a4a4a',
+                    muted: '#6b6b6b',
+                    faint: '#999999',
+                },
+                coral: {
+                    DEFAULT: '#e8735a',
+                    dark: '#d4614a',
+                    light: '#f0917d',
+                },
             },
             typography: (theme) => ({
-                dark: {
-                    css: {
-                        color: '#b1b4b9',
-                        a: {
-                            color: '#68aee8',
-                            '&:hover': {
-                                color: '#79b7eb',
-                            },
-                        },
-                        blockquote: {
-                            color: '#b1b4b9',
-                            borderLeftColor: '#646568',
-                        },
-                        'h1, h2, h3, h4': {
-                            color: '#dfbe81',
-                        },
-                        code: {
-                            display: 'inline-block',
-                            color: '#dfbe81',
-                            backgroundColor: '#35373b',
-                            paddingLeft: '6px',
-                            paddingRight: '6px',
-                            paddingTop: '2px',
-                            paddingBottom: '2px',
-                            borderRadius: '0.25rem',
-                            fontWeight: '400',
-                            borderWidth: '1px',
-                            borderColor: '#404247',
-                        },
-                        'code::before': {
-                            content: '""',
-                        },
-                        'code::after': {
-                            content: '""',
-                        },
-                        'pre code': {
-                            display: 'block',
-                            color: '#b1b4b9',
-                            backgroundColor: 'transparent',
-                            padding: 0,
-                            border: 'none',
-                        },
-                        strong: {
-                            color: '#dfbe81',
-                        },
-                    },
-                },
                 DEFAULT: {
                     css: {
-                        color: theme("colors.gray.700"),
+                        color: '#2c2c2c',
                         maxWidth: 'none',
+                        lineHeight: '1.8',
                         a: {
-                            color: theme("colors.blue.600"),
+                            color: '#e8735a',
                             textDecoration: 'none',
+                            fontWeight: '500',
                             '&:hover': {
-                                color: theme("colors.blue.700"),
                                 textDecoration: 'underline',
                             },
                         },
                         blockquote: {
-                            color: theme("colors.gray.700"),
-                            borderLeftColor: theme("colors.gray.300"),
+                            color: '#4a4a4a',
+                            borderLeftColor: '#e8735a',
                             fontStyle: 'normal',
                         },
                         'h1, h2, h3, h4': {
-                            color: theme("colors.gray.900"),
-                            fontWeight: '600',
+                            color: '#2c2c2c',
+                            fontFamily: 'Playfair Display, Georgia, serif',
+                            fontWeight: '700',
+                        },
+                        h1: {
+                            fontSize: '2.25rem',
+                        },
+                        h2: {
+                            fontSize: '1.75rem',
+                        },
+                        h3: {
+                            fontSize: '1.375rem',
                         },
                         code: {
                             display: 'inline-block',
-                            color: theme("colors.gray.800"),
-                            backgroundColor: theme("colors.gray.100"),
+                            color: '#2c2c2c',
+                            backgroundColor: '#f5f0ea',
                             paddingLeft: '6px',
                             paddingRight: '6px',
                             paddingTop: '2px',
                             paddingBottom: '2px',
                             borderRadius: '0.25rem',
                             fontWeight: '400',
+                            fontSize: '0.875em',
                         },
                         'code::before': {
                             content: '""',
@@ -117,16 +88,16 @@ module.exports = {
                             padding: 0,
                         },
                         strong: {
-                            color: theme("colors.gray.900"),
+                            color: '#2c2c2c',
                             fontWeight: '600',
+                        },
+                        hr: {
+                            borderColor: '#ede5d8',
                         },
                     }
                 },
             }),
         },
-    },
-    variants: {
-        extend: { typography: ["dark"] }
     },
     plugins: [
         require('@tailwindcss/typography'),

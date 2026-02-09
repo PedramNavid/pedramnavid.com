@@ -11,9 +11,9 @@ const { post } = Astro.props
         </div>
     </div>
     <div class={`flex-1 ${USE_MEDIA_THUMBNAIL && post.thumbnail ? 'flex flex-row gap-4' : ''}`}>
-        { USE_MEDIA_THUMBNAIL  && post.thumbnail && <img class="post-preview__media" src= {post.thumbnail} alt="media thumbnail" />}
+        { USE_MEDIA_THUMBNAIL && post.thumbnail && <img class="post-preview__media" src={post.thumbnail} alt="media thumbnail" />}
         <div class="flex flex-col mb-2">
-            <h4 class="post-preview__title dark:text-theme-dark-primary">
+            <h4 class="post-preview__title">
                 <a href={post.url} title={post.title} target="_blank">{post.title}</a>
             </h4>
             <div>
@@ -31,26 +31,27 @@ const { post } = Astro.props
         </p>
     </div>
 </div>
+
 <style>
     .post-preview {
-        @apply  flex gap-6
+        @apply flex gap-6;
     }
     .post-preview__date {
-        @apply flex flex-col w-full text-center
+        @apply flex flex-col w-full text-center;
     }
     .post-preview__date__day {
-        @apply text-6xl font-semibold text-gray-500 dark:text-gray-300
+        @apply text-6xl font-semibold text-charcoal-muted;
     }
     .post-preview__date__month-n-year {
-        @apply text-gray-400
+        @apply text-charcoal-faint;
     }
     .post-preview__title {
-        @apply text-2xl font-semibold text-theme-primary dark:text-theme-dark-primary /* this doesn't works here */ hover:underline
+        @apply text-2xl font-serif font-semibold text-charcoal hover:underline;
     }
     .post-preview__desc {
-        @apply text-lg leading-6 dark:text-white line-clamp-2 hyphens-auto
+        @apply text-lg leading-6 text-charcoal-light line-clamp-2 hyphens-auto;
     }
     .post-preview__media {
-        @apply w-48 rounded-md shadow-lg shadow-theme-accent-gray-light dark:shadow-theme-accent-gray-dark
+        @apply w-48 rounded-md shadow-lg;
     }
 </style>

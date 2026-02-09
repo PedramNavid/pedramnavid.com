@@ -1,17 +1,21 @@
 import type { NavItems } from "./types";
 
 export const NAV_ITEMS: NavItems = {
-    home: {
-        path: "/",
-        title: "home",
-    },
-    blog: {
+    writing: {
         path: "/blog",
-        title: "blog",
+        title: "writing",
     },
-    tags: {
-        path: "/tags",
-        title: "tags",
+    projects: {
+        path: "/projects",
+        title: "projects",
+    },
+    talks: {
+        path: "/talks",
+        title: "talks",
+    },
+    now: {
+        path: "/now",
+        title: "now",
     },
     about: {
         path: "/about",
@@ -20,33 +24,26 @@ export const NAV_ITEMS: NavItems = {
 };
 
 export const SITE = {
-    // Your site's detail?
     name: "Pedram Navid",
     title: "Pedram Navid",
-    description: "Pedram Navid",
+    description: "Writing about software engineering, data, and building things.",
     url: "https://pedramnavid.com",
     githubUrl: "https://github.com/pedramnavid",
     siteRepoUrl: "https://github.com/PedramNavid/pedramnavid.com",
     listDrafts: true,
     ytChannelId: "",
-    // Optional, user/author settings (example)
-    // Author: name
-    author: "Pedram Navid", // Example: Fred K. Schott
-    // Author: Twitter handler
-    authorTwitter: "pdrmnvd", // Example: FredKSchott
-    // Author: Image external source
-    authorImage: "", // Example: https://pbs.twimg.com/profile_images/1272979356529221632/sxvncugt_400x400.jpg, https://abs.twimg.com/sticky/default_profile_images/default_profile_normal.png
-    // Author: Bio
+    author: "Pedram Navid",
+    authorTwitter: "pdrmnvd",
+    authorImage: "",
     authorBio:
-        "my name is pedram",
+        "Working at Anthropic, helping technical audiences understand and build with Claude.",
 };
 
-// Ink - Theme configuration
 export const PAGE_SIZE = 8;
 export const USE_POST_IMG_OVERLAY = false;
 export const USE_MEDIA_THUMBNAIL = true;
 
 export const USE_AUTHOR_CARD = false;
-export const USE_SUBSCRIPTION = false; /* works only when USE_AUTHOR_CARD is true */
+export const USE_SUBSCRIPTION = false;
 
 export const USE_VIEW_STATS = false;

@@ -1,0 +1,96 @@
+---
+import DefaultPageLayout from '$/layouts/default.astro'
+
+const title = 'Projects'
+const description = 'Things I\'ve built and contributed to.'
+
+const projects = [
+    {
+        name: 'Claude Cookbooks',
+        description: 'The official Claude Cookbooks site on Anthropic\'s developer platform. A collection of practical guides, tutorials, and code examples for building with the Claude API.',
+        url: 'https://platform.claude.com/cookbook',
+        tags: ['Anthropic', 'Claude', 'Developer Education'],
+    },
+    {
+        name: 'petit',
+        description: 'A memory-efficient, lightweight orchestrator with a TUI, built in Rust using Claude Code. Supports in-memory and SQLite storage with a YAML-based framework for defining jobs and tasks. Built entirely by Opus 4.5 in about half a day.',
+        url: 'https://github.com/PedramNavid/petit',
+        tags: ['Rust', 'Orchestration', 'Claude Code', 'TUI'],
+    },
+    {
+        name: 'DSPy Connections',
+        description: 'An exploration of DSPy for building and optimizing LLM applications. Demonstrates structured approaches to prompt optimization and evaluation pipelines.',
+        url: 'https://github.com/PedramNavid/dspy-connections',
+        tags: ['Python', 'DSPy', 'LLM', 'AI'],
+    },
+    {
+        name: 'dbtpal',
+        description: 'A Neovim plugin for dbt that brings the power of dbt directly into your editor. Run models, test, and navigate your dbt project without leaving Neovim.',
+        url: 'https://github.com/PedramNavid/dbtpal',
+        tags: ['Lua', 'Neovim', 'dbt'],
+    },
+    {
+        name: 'Rust for Data',
+        description: 'An open-source guide for learning Rust through the lens of data engineering. Tutorials and examples for data professionals coming from Python.',
+        url: 'https://github.com/PedramNavid/rust-for-data',
+        tags: ['Rust', 'Data Engineering', 'Tutorial'],
+    },
+]
+---
+<DefaultPageLayout content={{ title, description }}>
+    <div class="projects">
+        <div class="projects__grid">
+            {projects.map(project => (
+                <a href={project.url} class="project" target="_blank" rel="noopener">
+                    <div class="project__header">
+                        <h3 class="project__name">{project.name}</h3>
+                        <span class="project__arrow">&nearr;</span>
+                    </div>
+                    <p class="project__desc">{project.description}</p>
+                    <div class="project__tags">
+                        {project.tags.map(tag => (
+                            <span class="project__tag">{tag}</span>
+                        ))}
+                    </div>
+                </a>
+            ))}
+        </div>
+    </div>
+</DefaultPageLayout>
+
+<style>
+    .projects {
+        @apply pb-12;
+    }
+    .projects__grid {
+        @apply grid grid-cols-1 md:grid-cols-2 gap-4;
+    }
+    .project {
+        @apply block p-6 bg-cream-50 border border-cream-200 no-underline transition-all;
+    }
+    .project:hover {
+        @apply border-cream-400 shadow-sm;
+        transform: translateY(-2px);
+    }
+    .project__header {
+        @apply flex items-start justify-between mb-3;
+    }
+    .project__name {
+        @apply font-serif text-xl font-bold text-charcoal;
+    }
+    .project:hover .project__name {
+        @apply text-coral;
+    }
+    .project__arrow {
+        @apply text-charcoal-faint text-lg;
+    }
+    .project__desc {
+        @apply text-sm text-charcoal-muted leading-relaxed mb-4;
+    }
+    .project__tags {
+        @apply flex flex-wrap gap-2;
+    }
+    .project__tag {
+        @apply font-mono text-[10px] tracking-wide text-charcoal-faint bg-cream-200 px-2 py-0.5;
+    }
+</style>

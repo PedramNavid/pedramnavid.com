@@ -15,6 +15,7 @@
         "cz": "cz"
     },
     "devDependencies": {
+        "@astrojs/check": "^0.9.6",
         "@astrojs/mdx": "4.3.5",
         "@astrojs/rss": "4.0.12",
         "@astrojs/sitemap": "3.5.1",
@@ -26,7 +27,7 @@
         "@tailwindcss/forms": "^0.5.10",
         "@tailwindcss/typography": "^0.5.16",
         "@types/node": "^24.3.0",
-        "astro": "5.13.7",
+        "astro": "5.17.1",
         "commitizen": "^4.3.1",
         "cz-conventional-changelog": "^3.3.0",
         "globby": "^14.1.0",
@@ -36,18 +37,21 @@
         "remark-code-titles": "^0.1.2",
         "svelte": "^5.38.2",
         "tailwindcss": "^3.4.17",
-        "typescript": "^5.9.2"
+        "turndown": "^7.2.2",
+        "typescript": "^5.9.3"
     },
     "dependencies": {
         "@astrojs/markdoc": "0.15.6",
         "@astrojs/vercel": "8.2.7",
         "@fontsource/inter": "^5.2.6",
+        "@fontsource/playfair-display": "^5.2.8",
         "@libsql/client": "^0.15.12",
         "astro-decap-cms-oauth": "^0.5.1",
         "astro-expressive-code": "^0.41.3",
         "astro-icon": "^1.1.5",
         "astro-opengraph-images": "^1.13.1",
         "autoprefixer": "^10.4.21",
+        "caniuse-lite": "^1.0.30001769",
         "ioredis": "^5.7.0",
         "playwright": "^1.55.0",
         "postcss": "^8.5.6",
